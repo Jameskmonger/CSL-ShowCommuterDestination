@@ -182,7 +182,7 @@ namespace CSLShowCommuterDestination
         private int GetStopIndex()
         {
             ushort stop = Singleton<TransportManager>.instance.m_lines.m_buffer[this.transportLineId].m_stops;
-            int index = 0;
+            int index = 1;
             while (stop != 0)
             {
                 if (this.stopId == (int)stop)
