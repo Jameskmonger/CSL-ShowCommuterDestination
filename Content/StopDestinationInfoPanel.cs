@@ -3,7 +3,7 @@ using ColossalFramework.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using UnityEngine;
 
 namespace CSLShowCommuterDestination
@@ -48,6 +48,8 @@ namespace CSLShowCommuterDestination
                 return;
             }
 
+            this.AttemptToShowIPT2Panel(instanceId);
+
             this.stopId = stopId;
             var node = Singleton<NetManager>.instance.m_nodes.m_buffer[this.stopId];
             this.transportLineId = node.m_transportLine;
@@ -80,6 +82,47 @@ namespace CSLShowCommuterDestination
             var nextStop = TransportLine.GetNextStop(this.stopId);
 
             this.Show(nextStop);
+        }
+
+        private void AttemptToShowIPT2Panel(InstanceID instanceId)
+        {
+            Type iptType = Type.GetType("ImprovedPublicTransport2.PublicTransportStopWorldInfoPanel, ImprovedPublicTransport2");
+
+            if (iptType != null)
+            {
+                var instanceField = iptType.GetField("instance", BindingFlags.Public | BindingFlags.Static);
+
+                if (instanceField != null)
+                {
+                    var iptStopPanelInstance = instanceField.GetValue(null);
+
+                    var showMethod = iptType.GetMethod(
+                        "Show",
+                        BindingFlags.Public | BindingFlags.Instance,
+                        null,
+                        new[] { typeof(Vector3), typeof(InstanceID) },
+                        null
+                    );
+
+                    if (showMethod != null)
+                    {
+                        var arguments = new object[] { Singleton<NetManager>.instance.m_nodes.m_buffer[(int)instanceId.NetNode].m_position, instanceId };
+                        showMethod.Invoke(iptStopPanelInstance, arguments);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("'Show' method not found in PublicTransportStopWorldInfoPanel");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("'instance' field found in PublicTransportStopWorldInfoPanel");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("IPT2 panel type not found");
+            }
         }
 
         private IEnumerable<KeyValuePair<ushort, int>> GetPositionPopularities()
