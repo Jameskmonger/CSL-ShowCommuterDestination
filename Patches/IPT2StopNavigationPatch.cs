@@ -7,6 +7,8 @@ namespace CSLShowCommuterDestination.Patches
     [HarmonyPatch]
     public static class IPT2StopNavigationPatch
     {
+        public static bool Prepare() => Type.GetType("ImprovedPublicTransport2.PublicTransportStopWorldInfoPanel, ImprovedPublicTransport2") != null;
+
         public static MethodBase TargetMethod()
         {
             return Type.GetType("ImprovedPublicTransport2.PublicTransportStopWorldInfoPanel, ImprovedPublicTransport2")?
