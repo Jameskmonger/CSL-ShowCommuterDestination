@@ -12,17 +12,17 @@ namespace CSLShowCommuterDestination.Patches
     [HarmonyPatch]
     public static class OpenStopDestinationPanelPatch
     {
-        public static MethodBase TargetMethod()
+        public static IEnumerable<MethodBase>TargetMethods()
         {
+            yield return typeof(PublicTransportStopButton).GetMethod("OnMouseDown", BindingFlags.Instance | BindingFlags.NonPublic);
+
             // Improved Public Transport compatibility
             Type iptType = Type.GetType("ImprovedPublicTransport2.Detour.PublicTransportStopButtonDetour, ImprovedPublicTransport2");
 
             if (iptType != null)
             {
-                return iptType.GetMethod("OnMouseDown", BindingFlags.Instance | BindingFlags.NonPublic);
+                yield return iptType.GetMethod("OnMouseDown", BindingFlags.Instance | BindingFlags.NonPublic);
             }
-
-            return typeof(PublicTransportStopButton).GetMethod("OnMouseDown", BindingFlags.Instance | BindingFlags.NonPublic);
         }
 
         public static void Postfix(

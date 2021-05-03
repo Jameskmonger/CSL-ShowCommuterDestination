@@ -88,41 +88,44 @@ namespace CSLShowCommuterDestination
         {
             Type iptType = Type.GetType("ImprovedPublicTransport2.PublicTransportStopWorldInfoPanel, ImprovedPublicTransport2");
 
-            if (iptType != null)
-            {
-                var instanceField = iptType.GetField("instance", BindingFlags.Public | BindingFlags.Static);
-
-                if (instanceField != null)
-                {
-                    var iptStopPanelInstance = instanceField.GetValue(null);
-
-                    var showMethod = iptType.GetMethod(
-                        "Show",
-                        BindingFlags.Public | BindingFlags.Instance,
-                        null,
-                        new[] { typeof(Vector3), typeof(InstanceID) },
-                        null
-                    );
-
-                    if (showMethod != null)
-                    {
-                        var arguments = new object[] { Singleton<NetManager>.instance.m_nodes.m_buffer[(int)instanceId.NetNode].m_position, instanceId };
-                        showMethod.Invoke(iptStopPanelInstance, arguments);
-                    }
-                    else
-                    {
-                        Debug.LogWarning("'Show' method not found in PublicTransportStopWorldInfoPanel");
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning("'instance' field found in PublicTransportStopWorldInfoPanel");
-                }
-            }
-            else
+            if (iptType == null)
             {
                 Debug.LogWarning("IPT2 panel type not found");
+                return;
             }
+
+            var instanceField = iptType.GetField("instance", BindingFlags.Public | BindingFlags.Static);
+
+            if (instanceField == null)
+            {
+                Debug.LogWarning("'instance' field found in PublicTransportStopWorldInfoPanel");
+                return;
+            }
+
+            var iptStopPanelInstance = instanceField.GetValue(null);
+
+            if (iptStopPanelInstance == null)
+            {
+                Debug.LogWarning("'instance' field was null");
+                return;
+            }
+
+            var showMethod = iptType.GetMethod(
+                "Show",
+                BindingFlags.Public | BindingFlags.Instance,
+                null,
+                new[] { typeof(Vector3), typeof(InstanceID) },
+                null
+            );
+
+            if (showMethod == null)
+            {
+                Debug.LogWarning("'Show' method not found in PublicTransportStopWorldInfoPanel");
+                return;
+            }
+
+            var arguments = new object[] { Singleton<NetManager>.instance.m_nodes.m_buffer[(int)instanceId.NetNode].m_position, instanceId };
+            showMethod.Invoke(iptStopPanelInstance, arguments);
         }
 
         private IEnumerable<KeyValuePair<ushort, int>> GetPositionPopularities()
