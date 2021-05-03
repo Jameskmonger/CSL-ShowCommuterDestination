@@ -31,8 +31,7 @@ namespace CSLShowCommuterDestination
         public override void Update()
         {
             base.Update();
-            if (!this.isVisible)
-                return;
+
             this.CheckForClose();
         }
 
@@ -67,7 +66,6 @@ namespace CSLShowCommuterDestination
             ToolsModifierControl.cameraController.SetTarget(instanceId, node.m_position, false);
 
             this.Show();
-            this.LateUpdate();
         }
 
         public void MoveToPrevStop()
