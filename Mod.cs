@@ -10,11 +10,11 @@ namespace CSLShowCommuterDestination {
     {
         private GameObject stopDestinationInfoPanel;
 
-        public string Name => "CSL Show Commuter Destination Mod";
-        public string Description => "When viewing a public transport stop, see the target buildings for all commuters currently at that stop";
+        public string Name => "CSL Commuter Destination";
+        public string Description => "See the destination of all passengers waiting at a public transport stop.";
 
         public void OnEnabled() {
-            UnityEngine.Debug.Log("OnEnabled hit it yooo");
+            UnityEngine.Debug.Log("CSL Commuter Destination enabled");
             HarmonyHelper.DoOnHarmonyReady(Patcher.Patch);
         }
 
