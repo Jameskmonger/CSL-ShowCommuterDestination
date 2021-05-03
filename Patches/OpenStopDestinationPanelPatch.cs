@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using ColossalFramework;
 using ColossalFramework.Math;
@@ -13,6 +14,14 @@ namespace CSLShowCommuterDestination.Patches
     {
         public static MethodBase TargetMethod()
         {
+            // Improved Public Transport compatibility
+            Type iptType = Type.GetType("ImprovedPublicTransport2.Detour.PublicTransportStopButtonDetour, ImprovedPublicTransport2");
+
+            if (iptType != null)
+            {
+                return iptType.GetMethod("OnMouseDown", BindingFlags.Instance | BindingFlags.NonPublic);
+            }
+
             return typeof(PublicTransportStopButton).GetMethod("OnMouseDown", BindingFlags.Instance | BindingFlags.NonPublic);
         }
 
