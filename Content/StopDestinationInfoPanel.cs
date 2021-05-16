@@ -230,6 +230,18 @@ namespace CSLShowCommuterDestination
             title.relativePosition = new Vector3(10.0f, 10.0f);
             title.textColor = new Color32(231, 220, 161, 255);
 
+            UIButton closeButton = this.AddUIComponent<UIButton>();
+            closeButton.name = "CloseButton";
+            closeButton.size = new Vector2(32f, 32f);
+            closeButton.normalBgSprite = "buttonclose";
+            closeButton.hoveredBgSprite = "buttonclosehover";
+            closeButton.pressedBgSprite = "buttonclosepressed";
+            closeButton.relativePosition = new Vector3(
+                (this.width - closeButton.width - 2.0f),
+                2.0f
+            );
+            closeButton.eventClick += new MouseEventHandler(this.OnCloseButtonClick);
+
             UIPanel container = this.AddUIComponent<UIPanel>();
             container.name = "Container";
             container.width = this.width;
@@ -289,6 +301,11 @@ namespace CSLShowCommuterDestination
             this.m_PassengerCountLabel.text = "Passenger Count";
             this.m_PassengerCountLabel.textScale = 0.8f;
             this.m_PassengerCountLabel.relativePosition = new Vector3(0.0f, 90.0f);
+        }
+
+        private void OnCloseButtonClick(UIComponent component, UIMouseEventParameter eventParam)
+        {
+            this.Hide();
         }
 
         private void OnPrevStopButtonClick(UIComponent component, UIMouseEventParameter eventParam)
