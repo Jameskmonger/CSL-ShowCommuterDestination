@@ -1,4 +1,4 @@
-﻿using ColossalFramework;
+using ColossalFramework;
 using UnityEngine;
 
 namespace CSLShowCommuterDestination
@@ -14,17 +14,17 @@ namespace CSLShowCommuterDestination
                 return;
             }
 
-            foreach (var popularity in StopDestinationInfoPanel.instance.m_BuildingPopularities)
-            {
-                // get the position of the building
-                Vector3 position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[popularity.Key].m_position;
+            //foreach (var popularity in StopDestinationInfoPanel.instance.m_BuildingPopularities)
+            //{
+            //    // get the position of the building
+            //    Vector3 position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[popularity.Key].m_position;
 
-                // raise the icon in the air, this should probably use building height
-                position.y += 50f;
+            //    // raise the icon in the air, this should probably use building height
+            //    position.y += 50f;
 
-                // render the notification
-                Notification.RenderInstance(cameraInfo, this.m_Notification, position, (float)(1 + (popularity.Value / 5)));
-            }
+            //    // render the notification
+            //    Notification.RenderInstance(cameraInfo, this.m_Notification, position, (float)(1 + (popularity.Value / 5)));
+            //}
         }
     }
 }

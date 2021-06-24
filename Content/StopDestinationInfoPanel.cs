@@ -1,5 +1,6 @@
 ﻿using ColossalFramework;
 using ColossalFramework.UI;
+using CSLShowCommuterDestination.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,10 @@ namespace CSLShowCommuterDestination
         private UILabel m_PassengerCountLabel;
         private UIDragHandle m_DragHandle { get; set; }
 
+        private List<DestinationRenderer> renderers = new List<DestinationRenderer>();
+
+        public float m_heightScaleFactor = 0.5f;
+
         public override void Start()
         {
             StopDestinationInfoPanel.instance = this;
@@ -63,6 +68,14 @@ namespace CSLShowCommuterDestination
 
             this.AttemptToShowIPT2Panel(instanceId);
 
+            foreach (var comp in this.renderers)
+            {
+                Destroy(comp);
+                Destroy(comp.gameObject);
+            }
+
+            this.renderers.Clear();
+
             this.stopId = stopId;
             var node = Singleton<NetManager>.instance.m_nodes.m_buffer[this.stopId];
             this.transportLineId = node.m_transportLine;
@@ -76,6 +89,15 @@ namespace CSLShowCommuterDestination
             this.m_PassengerCountLabel.text = "Waiting passengers: " + passengerCount;
 
             this.m_BuildingPopularities = this.GetPositionPopularities();
+
+            foreach (var pop in this.m_BuildingPopularities)
+            {
+                Vector3 position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[pop.Key].m_position;
+
+                DestinationRenderer renderer = (DestinationRenderer) new GameObject().AddComponent(typeof(DestinationRenderer));
+                renderer.SetPosition(position, pop.Value);
+                renderers.Add(renderer);
+            }
 
             ToolsModifierControl.cameraController.SetTarget(instanceId, node.m_position, false);
 
