@@ -10,6 +10,19 @@ namespace CSLShowCommuterDestination
 {
     public class StopDestinationInfoPanel : UIPanel
     {
+        static class PanelConfig
+        {
+            public static float PanelWidth = 300.0f;
+            public static float PanelHeight = 150.0f;
+
+            public static float TitleWidth = 250.0f;
+            public static float TitleHeight = 36.0f;
+
+            public static float CloseButtonSize = 32.0f;
+            public static float CloseButtonY = 3.0f;
+            public static float CloseButtonX = PanelWidth - CloseButtonSize - CloseButtonY;
+        }
+
         public static StopDestinationInfoPanel instance;
 
         public ushort stopId;
@@ -20,6 +33,7 @@ namespace CSLShowCommuterDestination
         private UILabel m_LineNameLabel;
         private UILabel m_StopNameLabel;
         private UILabel m_PassengerCountLabel;
+        private UIDragHandle m_DragHandle { get; set; }
 
         public override void Start()
         {
@@ -217,29 +231,39 @@ namespace CSLShowCommuterDestination
             this.isInteractive = true;
             this.anchor = UIAnchorStyle.None;
             this.pivot = UIPivotPoint.MiddleCenter;
-            this.transformPosition = new Vector3(1.5f, 0f);
-            this.width = 250f;
-            this.height = 150f;
+            this.relativePosition = Vector3.zero;
+            this.width = PanelConfig.PanelWidth;
+            this.height = PanelConfig.PanelHeight;
             this.backgroundSprite = "MenuPanel";
 
             this.padding = new RectOffset(10, 10, 5, 5);
 
-            UILabel title = this.AddUIComponent<UILabel>();
+            UIPanel titleBar = this.AddUIComponent<UIPanel>();
+            titleBar.width = PanelConfig.TitleWidth;
+            titleBar.height = PanelConfig.TitleHeight;
+            titleBar.relativePosition = Vector3.zero;
+
+            UILabel title = titleBar.AddUIComponent<UILabel>();
             title.name = "TitleLabel";
             title.text = "Commuter Destinations";
+            title.isInteractive = false;
+            title.width = titleBar.width;
             title.relativePosition = new Vector3(10.0f, 10.0f);
             title.textColor = new Color32(231, 220, 161, 255);
 
-            UIButton closeButton = this.AddUIComponent<UIButton>();
+            UIDragHandle dragHandle = titleBar.AddUIComponent<UIDragHandle>();
+            dragHandle.width = titleBar.width;
+            dragHandle.height = titleBar.height;
+            dragHandle.relativePosition = Vector3.zero;
+            dragHandle.target = titleBar.parent;
+
+            UIButton closeButton = titleBar.AddUIComponent<UIButton>();
             closeButton.name = "CloseButton";
-            closeButton.size = new Vector2(32f, 32f);
+            closeButton.size = new Vector2(PanelConfig.CloseButtonSize, PanelConfig.CloseButtonSize);
             closeButton.normalBgSprite = "buttonclose";
             closeButton.hoveredBgSprite = "buttonclosehover";
             closeButton.pressedBgSprite = "buttonclosepressed";
-            closeButton.relativePosition = new Vector3(
-                (this.width - closeButton.width - 2.0f),
-                2.0f
-            );
+            closeButton.relativePosition = new Vector3(PanelConfig.CloseButtonX, PanelConfig.CloseButtonY);
             closeButton.eventClick += new MouseEventHandler(this.OnCloseButtonClick);
 
             UIPanel container = this.AddUIComponent<UIPanel>();
