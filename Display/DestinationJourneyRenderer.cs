@@ -53,7 +53,7 @@ namespace CSLShowCommuterDestination.Display
 
             var heightOffset = new Vector3(0, 50f, 0);
 
-            lineRenderer.SetPositions(new Vector3[] { journey.origin + heightOffset, journey.destination + heightOffset });
+            lineRenderer.SetPositions(new Vector3[] { journey.origin.position + heightOffset, journey.destination + heightOffset });
             lineRenderer.startWidth = (journey.popularity * 2f) + 3;
             lineRenderer.endWidth = (journey.popularity * 2f) + 3;
         }

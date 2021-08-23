@@ -6,10 +6,10 @@ namespace CSLShowCommuterDestination.Graph
 {
     public class DestinationStop
     {
-        private Dictionary<ushort, int> buildingPopularities = new Dictionary<ushort, int>();
-        private Dictionary<ushort, Vector3> buildingPositions = new Dictionary<ushort, Vector3>();
-        private ushort stopId;
-        private Vector3 position;
+        private readonly Dictionary<ushort, DestinationJourney> journeys = new Dictionary<ushort, DestinationJourney>();
+
+        private readonly ushort stopId;
+        public readonly Vector3 position;
 
         public DestinationStop(ushort stopId, Vector3 position)
         {
@@ -19,18 +19,14 @@ namespace CSLShowCommuterDestination.Graph
 
         public void AddJourney(ushort buildingId, Vector3 position)
         {
-            if (buildingPopularities.ContainsKey(buildingId))
+            if (journeys.ContainsKey(buildingId))
             {
-                int previous = buildingPopularities[buildingId];
-
-                buildingPopularities.Remove(buildingId);
-
-                buildingPopularities.Add(buildingId, previous + 1);
-            }
-            else
+                journeys[buildingId].IncreasePopularity();
+            } else
             {
-                buildingPopularities.Add(buildingId, 1);
-                buildingPositions.Add(buildingId, position);
+                var journey = new DestinationJourney(this, buildingId, position);
+
+                journeys.Add(buildingId, journey);
             }
         }
 
@@ -41,9 +37,7 @@ namespace CSLShowCommuterDestination.Graph
 
         public IEnumerable<DestinationJourney> GetJourneys()
         {
-            return buildingPopularities.Select(building =>
-                new DestinationJourney(stopId, building.Key, building.Value, position, buildingPositions[building.Key])
-            );
+            return journeys.Values;
         }
     }
 }

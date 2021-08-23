@@ -4,20 +4,21 @@ namespace CSLShowCommuterDestination.Graph
 {
     public class DestinationJourney
     {
-        public ushort stopId;
-        public ushort buildingId;
-        public int popularity;
-
-        public Vector3 origin;
+        public DestinationStop origin;
+        public ushort destinationId;
         public Vector3 destination;
+        public int popularity = 1;
 
-        public DestinationJourney(ushort stopId, ushort buildingId, int popularity, Vector3 origin, Vector3 destination)
+        public DestinationJourney(DestinationStop origin, ushort destinationId, Vector3 destination)
         {
-            this.stopId = stopId;
-            this.buildingId = buildingId;
-            this.popularity = popularity;
             this.origin = origin;
+            this.destinationId = destinationId;
             this.destination = destination;
+        }
+
+        public void IncreasePopularity()
+        {
+            popularity++;
         }
     }
 }
