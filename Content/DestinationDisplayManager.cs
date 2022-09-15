@@ -5,7 +5,7 @@ namespace CSLShowCommuterDestination
 {
     public class DestinationDisplayManager : SimulationManagerBase<DestinationDisplayManager, MonoBehaviour>, IRenderableManager
     {
-        public Notification.Problem m_Notification = Notification.Problem.TooLong | Notification.Problem.MajorProblem;
+        public Notification.ProblemStruct m_Notification = new Notification.ProblemStruct(Notification.Problem1.TooLong | Notification.Problem1.MajorProblem);
 
         protected override void BeginOverlayImpl(RenderManager.CameraInfo cameraInfo)
         {
