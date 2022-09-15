@@ -9,8 +9,6 @@ namespace CSLShowCommuterDestination {
             Debug.Log("jameskmonger.CSLShowCommuterDestination Patching");
             var harmony = new Harmony(kHarmonyId);
             harmony.PatchAll(typeof(Patcher).Assembly);
-
-            SimulationManager.RegisterManager((UnityEngine.Object)ColossalFramework.Singleton<DestinationDisplayManager>.instance);
         }
 
         public static void Unpatch() {

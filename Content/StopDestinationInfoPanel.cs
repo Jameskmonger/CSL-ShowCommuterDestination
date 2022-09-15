@@ -1,9 +1,7 @@
-﻿using ColossalFramework;
-using ColossalFramework.UI;
-using CSLShowCommuterDestination.Display;
-using CSLShowCommuterDestination.Graph;
+﻿using ColossalFramework.UI;
+using CSLShowCommuterDestination.Unity;
+using CSLShowCommuterDestination.Game;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -56,6 +54,30 @@ namespace CSLShowCommuterDestination
                 return;
             }
 
+            var graphRendererPrefab = Mod.Prefab_DestinationGraphRenderer;
+
+            if (graphRendererPrefab == null)
+            {
+                Debug.LogWarning("No DestinationGraphRenderer prefab loaded");
+                return;
+            }
+
+            var stopRendererPrefab = Mod.Prefab_DestinationStopRenderer;
+
+            if (stopRendererPrefab == null)
+            {
+                Debug.LogWarning("No DestinationStopRenderer prefab loaded");
+                return;
+            }
+
+            var journeyRendererPrefab = Mod.Prefab_DestinationJourneyRenderer;
+
+            if (journeyRendererPrefab == null)
+            {
+                Debug.LogWarning("No DestinationJourneyRenderer prefab loaded");
+                return;
+            }
+
             InstanceID instanceId = InstanceID.Empty;
             instanceId.NetNode = stopId;
 
@@ -78,7 +100,7 @@ namespace CSLShowCommuterDestination
 
             Debug.Log("Generated graph containing " + graph.stops.Count() + " stops");
 
-            DestinationGraphRenderer.Create(graph);
+            DestinationGraphRenderer.Create(graphRendererPrefab, stopRendererPrefab, journeyRendererPrefab, graph);
 
             Bridge.SetCameraOnStop(stopId);
 
