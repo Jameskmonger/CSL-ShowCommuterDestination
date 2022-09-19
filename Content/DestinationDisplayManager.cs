@@ -1,4 +1,5 @@
 ﻿using ColossalFramework;
+using CSLShowCommuterDestination.Game;
 using UnityEngine;
 
 namespace CSLShowCommuterDestination
@@ -17,7 +18,7 @@ namespace CSLShowCommuterDestination
             foreach (var popularity in StopDestinationInfoPanel.instance.m_BuildingPopularities)
             {
                 // get the position of the building
-                Vector3 position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[popularity.Key].m_position;
+                Vector3 position = Bridge.GetBuildingPosition(popularity.Key);
 
                 // raise the icon in the air, this should probably use building height
                 position.y += 50f;
