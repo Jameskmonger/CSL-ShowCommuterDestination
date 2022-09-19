@@ -1,5 +1,6 @@
 ﻿using ColossalFramework;
 using ColossalFramework.UI;
+using CSLShowCommuterDestination.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,20 +65,17 @@ namespace CSLShowCommuterDestination
             this.AttemptToShowIPT2Panel(instanceId);
 
             this.stopId = stopId;
-            var node = Singleton<NetManager>.instance.m_nodes.m_buffer[this.stopId];
-            this.transportLineId = node.m_transportLine;
+            this.transportLineId = Bridge.GetStopTransportLineId(this.stopId);
 
             Debug.Log("Valid instance ID for StopDestinationInfoPanel");
             WorldInfoPanel.HideAllWorldInfoPanels();
-            this.m_LineNameLabel.text = Singleton<TransportManager>.instance.GetLineName(this.transportLineId) + " destinations";
-            this.m_StopNameLabel.text = "Stop #" + this.GetStopIndex();
-
-            int passengerCount = Singleton<TransportManager>.instance.m_lines.m_buffer[this.transportLineId].CalculatePassengerCount(this.stopId);
-            this.m_PassengerCountLabel.text = "Waiting passengers: " + passengerCount;
+            this.m_LineNameLabel.text = Bridge.GetStopLineName(this.stopId) + " destinations";
+            this.m_StopNameLabel.text = "Stop #" + Bridge.GetStopIndex(this.stopId);
+            this.m_PassengerCountLabel.text = "Waiting passengers: " + Bridge.GetStopPassengerCount(this.stopId);
 
             this.m_BuildingPopularities = this.GetPositionPopularities();
 
-            ToolsModifierControl.cameraController.SetTarget(instanceId, node.m_position, false);
+            Bridge.SetCameraOnStop(this.stopId);
 
             this.Show();
         }
@@ -136,7 +134,7 @@ namespace CSLShowCommuterDestination
                 return;
             }
 
-            var arguments = new object[] { Singleton<NetManager>.instance.m_nodes.m_buffer[(int)instanceId.NetNode].m_position, instanceId };
+            var arguments = new object[] { Bridge.GetStopPosition(instanceId.NetNode), instanceId };
             showMethod.Invoke(iptStopPanelInstance, arguments);
         }
 
@@ -144,10 +142,13 @@ namespace CSLShowCommuterDestination
         {
             ushort nextStop = TransportLine.GetNextStop(this.stopId);
             CitizenManager citizenManager = Singleton<CitizenManager>.instance;
-            NetManager netManager = Singleton<NetManager>.instance;
             float num1 = 64f;
-            Vector3 stopPosition = netManager.m_nodes.m_buffer[this.stopId].m_position;
-            Vector3 nextStopPosition = netManager.m_nodes.m_buffer[nextStop].m_position;
+
+            var CITIZEN_AT_STOP_RANGE = (double)num1 * (double)num1;
+
+            Vector3 stopPosition = Bridge.GetStopPosition(this.stopId);
+            Vector3 nextStopPosition = Bridge.GetStopPosition(nextStop);
+
             int num2 = Mathf.Max((int)(((double)stopPosition.x - (double)num1) / 8.0 + 1080.0), 0);
             int num3 = Mathf.Max((int)(((double)stopPosition.z - (double)num1) / 8.0 + 1080.0), 0);
             int num4 = Mathf.Min((int)(((double)stopPosition.x + (double)num1) / 8.0 + 1080.0), 2159);
@@ -166,9 +167,11 @@ namespace CSLShowCommuterDestination
 
                         ushort nextGridInstance = citizen.m_nextGridInstance;
 
+                        var citizenIsAtStop = Bridge.IsCitizenInRangeOfStop(citizenInstanceId, this.stopId, CITIZEN_AT_STOP_RANGE);
+
                         if (
                             (citizen.m_flags & CitizenInstance.Flags.WaitingTransport) != CitizenInstance.Flags.None
-                            && (double)Vector3.SqrMagnitude((Vector3)citizen.m_targetPos - stopPosition) < (double)num1 * (double)num1
+                            && citizenIsAtStop
                             && citizen.Info.m_citizenAI.TransportArriveAtSource(citizenInstanceId, ref citizen, stopPosition, nextStopPosition)
                         )
                         {
@@ -192,27 +195,6 @@ namespace CSLShowCommuterDestination
             }
 
             return popularities.OrderByDescending(key => key.Value);
-        }
-
-        private int GetStopIndex()
-        {
-            ushort stop = Singleton<TransportManager>.instance.m_lines.m_buffer[this.transportLineId].m_stops;
-            int index = 1;
-            while (stop != 0)
-            {
-                if (this.stopId == (int)stop)
-                {
-                    return index;
-                }
-                ++index;
-                stop = TransportLine.GetNextStop(stop);
-                if (index >= 32768)
-                {
-                    break;
-                }
-            }
-
-            return 0;
         }
 
         private void CheckForClose()
