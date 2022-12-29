@@ -6,27 +6,30 @@ using UnityEngine;
 
 namespace CSLShowCommuterDestination.Game
 {
+    /**
+     * This class is responsible for generating a {@link DestinationGraph} for a given stop.
+     */
     public class DestinationGraphGenerator
     {
-        public static DestinationGraph GenerateGraph(ushort originalStopId)
-        {
-            // this method is a bit of a clone of LoadPassengers from BusAI
+        /**
+         * Generate a {@link DestinationGraph} for a given stop.
+         * 
+         * This logic is taken from LoadPassengers in the game logic (e.g. in BusAI)
+         * 
+         * @param stopId The stop to generate the graph for.
+         * 
+         * @return The generated graph.
+         */
+        public static DestinationGraph GenerateGraph(ushort stopId)
+        {            
+            var transitRange = GetStopRange(stopId);
+            
+            Vector3 stopPosition = Bridge.GetStopPosition(stopId);
 
-            ushort nextStop = TransportLine.GetNextStop(originalStopId);
-
-            // this should be 32 for buses, cable cars, 
-            //          64 for trains, ships, blimps, ferries, helicopters, planes, trams, trolleybuses
-            float transitRange = 64f;
-
-            var CITIZEN_AT_STOP_RANGE = (double)transitRange * (double)transitRange;
-
-            Vector3 stopPosition = Bridge.GetStopPosition(originalStopId);
-            Vector3 nextStopPosition = Bridge.GetStopPosition(nextStop);
-
-            int LOWER_BOUND_X = Mathf.Max((int)(((double)stopPosition.x - (double)transitRange) / 8.0 + 1080.0), 0);
-            int LOWER_BOUND_Z = Mathf.Max((int)(((double)stopPosition.z - (double)transitRange) / 8.0 + 1080.0), 0);
-            int UPPER_BOUND_X = Mathf.Min((int)(((double)stopPosition.x + (double)transitRange) / 8.0 + 1080.0), 2159);
-            int UPPER_BOUND_Z = Mathf.Min((int)(((double)stopPosition.z + (double)transitRange) / 8.0 + 1080.0), 2159);
+            int LOWER_BOUND_X = Mathf.Max((int)((stopPosition.x - transitRange) / 8.0 + 1080.0), 0);
+            int UPPER_BOUND_X = Mathf.Min((int)((stopPosition.x + transitRange) / 8.0 + 1080.0), 2159);
+            int LOWER_BOUND_Z = Mathf.Max((int)((stopPosition.z - transitRange) / 8.0 + 1080.0), 0);
+            int UPPER_BOUND_Z = Mathf.Min((int)((stopPosition.z + transitRange) / 8.0 + 1080.0), 2159);
 
             // lookup stops by id for improved performance
             Dictionary<ushort, DestinationGraphStop> stops = new Dictionary<ushort, DestinationGraphStop>();
@@ -42,11 +45,11 @@ namespace CSLShowCommuterDestination.Game
 
                         ushort nextGridInstance = citizen.m_nextGridInstance;
 
-                        var citizenIsAtStop = CitizenIsAtStop(ref citizen, citizenInstanceId, originalStopId, CITIZEN_AT_STOP_RANGE);
+                        var citizenIsAtStop = IsCitizenAtStop(ref citizen, citizenInstanceId, stopId, transitRange);
 
                         if (citizenIsAtStop)
                         {
-                            var destinationStopId = Bridge.GetDestinationStopId(originalStopId, citizen);
+                            var destinationStopId = Bridge.GetDestinationStopId(stopId, citizen);
 
                             if (!stops.ContainsKey(destinationStopId))
                             {
@@ -73,13 +76,13 @@ namespace CSLShowCommuterDestination.Game
          * @param citizen The citizen to check
          * @param citizenInstanceId The citizen instance ID
          * @param stopId The stop to check
-         * @param range The range to check
+         * @param stopRange The range of the stop
          * 
          * @return true if the citizen is waiting at the stop
          */
-        private static bool CitizenIsAtStop(ref CitizenInstance citizen, ushort citizenInstanceId, ushort stopId, double range)
+        private static bool IsCitizenAtStop(ref CitizenInstance citizen, ushort citizenInstanceId, ushort stopId, float stopRange)
         {
-            var citizenIsAtStop = Bridge.IsCitizenInRangeOfStop(citizenInstanceId, stopId, range);
+            var citizenIsAtStop = Bridge.IsCitizenInRangeOfStop(citizenInstanceId, stopId, (double)stopRange);
 
             // If the citizen is not within range, no need to check further
             if (!citizenIsAtStop)
@@ -95,6 +98,26 @@ namespace CSLShowCommuterDestination.Game
                 (citizen.m_flags & CitizenInstance.Flags.WaitingTransport) != CitizenInstance.Flags.None
                 && citizen.Info.m_citizenAI.TransportArriveAtSource(citizenInstanceId, ref citizen, stopPosition, nextStopPosition)
             );
+        }
+
+        /**
+         * Get the transit range of a given stop.
+         * 
+         * These values are taken from the LoadPassengers game methods.
+         * 
+         * TODO should this live in Bridge instead?
+         * 
+         * @param stopId The stop to get the transit range for.
+         * 
+         * @return The transit range
+         */
+        private static float GetStopRange(ushort stopId)
+        {
+            // TODO take transit type into account
+            
+            // this should be 32 for buses, cable cars, 
+            //          64 for trains, ships, blimps, ferries, helicopters, planes, trams, trolleybuses
+            return 64f;
         }
     }
 }
