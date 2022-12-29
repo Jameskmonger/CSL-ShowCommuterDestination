@@ -1,6 +1,7 @@
 ﻿using ColossalFramework;
 using ColossalFramework.UI;
 using CSLShowCommuterDestination.Game;
+using CSLShowCommuterDestination.Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace CSLShowCommuterDestination
 
         public ushort stopId;
         public IEnumerable<KeyValuePair<ushort, int>> m_BuildingPopularities;
+
+        public DestinationGraph DestinationGraph { get; private set; }
 
         private ushort transportLineId;
 
@@ -66,6 +69,8 @@ namespace CSLShowCommuterDestination
 
             this.stopId = stopId;
             this.transportLineId = Bridge.GetStopTransportLineId(this.stopId);
+
+            this.DestinationGraph = DestinationGraphGenerator.GenerateGraph(this.stopId);
 
             Debug.Log("Valid instance ID for StopDestinationInfoPanel");
             WorldInfoPanel.HideAllWorldInfoPanels();

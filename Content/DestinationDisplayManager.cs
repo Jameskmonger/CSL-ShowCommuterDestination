@@ -1,12 +1,15 @@
-﻿using ColossalFramework;
-using CSLShowCommuterDestination.Game;
-using UnityEngine;
+﻿using UnityEngine;
+using CSLShowCommuterDestination.Content.Renderer;
 
 namespace CSLShowCommuterDestination
 {
+    /**
+     * Responsible for rendering the {@link DestinationGraph} when the user has the
+     * mod panel open.
+     */
     public class DestinationDisplayManager : SimulationManagerBase<DestinationDisplayManager, MonoBehaviour>, IRenderableManager
     {
-        public Notification.ProblemStruct m_Notification = new Notification.ProblemStruct(Notification.Problem1.TooLong | Notification.Problem1.MajorProblem);
+        private readonly IDestinationGraphRenderer notificationRenderer = new NotificationDestinationGraphRenderer();
 
         protected override void BeginOverlayImpl(RenderManager.CameraInfo cameraInfo)
         {
@@ -15,17 +18,22 @@ namespace CSLShowCommuterDestination
                 return;
             }
 
-            foreach (var popularity in StopDestinationInfoPanel.instance.m_BuildingPopularities)
+            if (StopDestinationInfoPanel.instance.DestinationGraph == null)
             {
-                // get the position of the building
-                Vector3 position = Bridge.GetBuildingPosition(popularity.Key);
-
-                // raise the icon in the air, this should probably use building height
-                position.y += 50f;
-
-                // render the notification
-                Notification.RenderInstance(cameraInfo, this.m_Notification, position, (float)(1 + (popularity.Value / 5)));
+                return;
             }
+
+            this.GetRenderer().Render(
+                cameraInfo,
+                StopDestinationInfoPanel.instance.DestinationGraph
+            );
+        }
+
+        private IDestinationGraphRenderer GetRenderer()
+        {
+            // TODO wire in new render system here
+
+            return notificationRenderer;
         }
     }
 }
