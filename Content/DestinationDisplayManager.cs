@@ -1,11 +1,18 @@
-﻿using ColossalFramework;
-using UnityEngine;
+﻿using UnityEngine;
+using CSLShowCommuterDestination.Content.Renderer;
 
 namespace CSLShowCommuterDestination
 {
+    /**
+     * Responsible for rendering the {@link DestinationGraph} when the user has the
+     * mod panel ({@link StopDestinationInfoPanel} open.
+     */
     public class DestinationDisplayManager : SimulationManagerBase<DestinationDisplayManager, MonoBehaviour>, IRenderableManager
     {
-        public Notification.ProblemStruct m_Notification = new Notification.ProblemStruct(Notification.Problem1.TooLong | Notification.Problem1.MajorProblem);
+        /**
+         * A renderer for the default, red, "old man" notification icon.
+         */
+        private readonly IDestinationGraphRenderer notificationRenderer = new NotificationDestinationGraphRenderer();
 
         protected override void BeginOverlayImpl(RenderManager.CameraInfo cameraInfo)
         {
@@ -14,17 +21,22 @@ namespace CSLShowCommuterDestination
                 return;
             }
 
-            foreach (var popularity in StopDestinationInfoPanel.instance.m_BuildingPopularities)
+            if (StopDestinationInfoPanel.instance.DestinationGraph == null)
             {
-                // get the position of the building
-                Vector3 position = Singleton<BuildingManager>.instance.m_buildings.m_buffer[popularity.Key].m_position;
-
-                // raise the icon in the air, this should probably use building height
-                position.y += 50f;
-
-                // render the notification
-                Notification.RenderInstance(cameraInfo, this.m_Notification, position, (float)(1 + (popularity.Value / 5)));
+                return;
             }
+
+            this.GetRenderer().Render(
+                cameraInfo,
+                StopDestinationInfoPanel.instance.DestinationGraph
+            );
+        }
+
+        private IDestinationGraphRenderer GetRenderer()
+        {
+            // TODO wire in new render system here
+
+            return notificationRenderer;
         }
     }
 }
