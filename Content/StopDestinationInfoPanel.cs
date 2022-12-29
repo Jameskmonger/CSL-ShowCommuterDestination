@@ -30,14 +30,16 @@ namespace CSLShowCommuterDestination
         public ushort stopId;
         public IEnumerable<KeyValuePair<ushort, int>> m_BuildingPopularities;
 
+        /**
+         * The graph of destinations for the currently selected stop.
+         * 
+         * TODO should this live on the panel?
+         */
         public DestinationGraph DestinationGraph { get; private set; }
-
-        private ushort transportLineId;
-
+        
         private UILabel m_LineNameLabel;
         private UILabel m_StopNameLabel;
         private UILabel m_PassengerCountLabel;
-        private UIDragHandle m_DragHandle { get; set; }
 
         public override void Start()
         {

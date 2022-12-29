@@ -18,8 +18,15 @@ namespace CSLShowCommuterDestination.Graph
          */
         public readonly Vector3 position;
 
-        private readonly Dictionary<ushort, DestinationGraphJourney> journeys = new Dictionary<ushort, DestinationGraphJourney>();
+        /**
+         * The ID of this stop.
+         */
         private readonly ushort stopId;
+
+        /**
+         * A list of journeys from this stop.
+         */
+        private readonly Dictionary<ushort, DestinationGraphJourney> journeys = new Dictionary<ushort, DestinationGraphJourney>();
 
         public DestinationGraphStop(ushort stopId)
         {
@@ -28,7 +35,10 @@ namespace CSLShowCommuterDestination.Graph
         }
 
         /**
-         * Track a passenger's destination building from this stop.
+         * Increase the popularity of a given building ID from this stop.
+         * 
+         * This will create a new {@link DestinationGraphJourney} if one does not already exist
+         * for the given building ID.
          *
          * @param buildingId The building ID that the passenger is travelling to.
          */
@@ -47,7 +57,7 @@ namespace CSLShowCommuterDestination.Graph
         }
 
         /**
-         * Get the list of {@link DestinationJourney} serviced by this stop
+         * Get the list of {@link DestinationJourney} from this stop
          */
         public IEnumerable<DestinationGraphJourney> GetJourneys()
         {

@@ -5,10 +5,13 @@ namespace CSLShowCommuterDestination
 {
     /**
      * Responsible for rendering the {@link DestinationGraph} when the user has the
-     * mod panel open.
+     * mod panel ({@link StopDestinationInfoPanel} open.
      */
     public class DestinationDisplayManager : SimulationManagerBase<DestinationDisplayManager, MonoBehaviour>, IRenderableManager
     {
+        /**
+         * A renderer for the default, red, "old man" notification icon.
+         */
         private readonly IDestinationGraphRenderer notificationRenderer = new NotificationDestinationGraphRenderer();
 
         protected override void BeginOverlayImpl(RenderManager.CameraInfo cameraInfo)
