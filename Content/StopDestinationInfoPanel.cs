@@ -47,6 +47,8 @@ namespace CSLShowCommuterDestination
             StopDestinationInfoPanel.instance = this;
             base.Start();
             this.SetupPanel();
+
+            ModIntegrations.CheckEnabledMods();
         }
 
         public override void Update()
