@@ -36,7 +36,9 @@ namespace CSLShowCommuterDestination
          * TODO should this live on the panel?
          */
         public DestinationGraph DestinationGraph { get; private set; }
-        
+
+        private ushort transportLineId;
+
         private UILabel m_LineNameLabel;
         private UILabel m_StopNameLabel;
         private UILabel m_PassengerCountLabel;
