@@ -28,7 +28,6 @@ namespace CSLShowCommuterDestination
         public static StopDestinationInfoPanel instance;
 
         public ushort stopId;
-        public IEnumerable<KeyValuePair<ushort, int>> m_BuildingPopularities;
 
         /**
          * The graph of destinations for the currently selected stop.
@@ -81,9 +80,7 @@ namespace CSLShowCommuterDestination
             this.m_LineNameLabel.text = Bridge.GetStopLineName(this.stopId) + " destinations";
             this.m_StopNameLabel.text = "Stop #" + Bridge.GetStopIndex(this.stopId);
             this.m_PassengerCountLabel.text = "Waiting passengers: " + Bridge.GetStopPassengerCount(this.stopId);
-
-            this.m_BuildingPopularities = this.GetPositionPopularities();
-
+      
             Bridge.SetCameraOnStop(this.stopId);
 
             this.Show();
@@ -146,66 +143,7 @@ namespace CSLShowCommuterDestination
             var arguments = new object[] { Bridge.GetStopPosition(instanceId.NetNode), instanceId };
             showMethod.Invoke(iptStopPanelInstance, arguments);
         }
-
-        private IEnumerable<KeyValuePair<ushort, int>> GetPositionPopularities()
-        {
-            ushort nextStop = TransportLine.GetNextStop(this.stopId);
-            CitizenManager citizenManager = Singleton<CitizenManager>.instance;
-            float num1 = 64f;
-
-            var CITIZEN_AT_STOP_RANGE = (double)num1 * (double)num1;
-
-            Vector3 stopPosition = Bridge.GetStopPosition(this.stopId);
-            Vector3 nextStopPosition = Bridge.GetStopPosition(nextStop);
-
-            int num2 = Mathf.Max((int)(((double)stopPosition.x - (double)num1) / 8.0 + 1080.0), 0);
-            int num3 = Mathf.Max((int)(((double)stopPosition.z - (double)num1) / 8.0 + 1080.0), 0);
-            int num4 = Mathf.Min((int)(((double)stopPosition.x + (double)num1) / 8.0 + 1080.0), 2159);
-            int num5 = Mathf.Min((int)(((double)stopPosition.z + (double)num1) / 8.0 + 1080.0), 2159);
-
-            Dictionary<ushort, int> popularities = new Dictionary<ushort, int>();
-
-            for (int index1 = num3; index1 <= num5; ++index1)
-            {
-                for (int index2 = num2; index2 <= num4; ++index2)
-                {
-                    ushort citizenInstanceId = citizenManager.m_citizenGrid[index1 * 2160 + index2];
-                    while (citizenInstanceId != (ushort)0)
-                    {
-                        CitizenInstance citizen = citizenManager.m_instances.m_buffer[(int)citizenInstanceId];
-
-                        ushort nextGridInstance = citizen.m_nextGridInstance;
-
-                        var citizenIsAtStop = Bridge.IsCitizenInRangeOfStop(citizenInstanceId, this.stopId, CITIZEN_AT_STOP_RANGE);
-
-                        if (
-                            (citizen.m_flags & CitizenInstance.Flags.WaitingTransport) != CitizenInstance.Flags.None
-                            && citizenIsAtStop
-                            && citizen.Info.m_citizenAI.TransportArriveAtSource(citizenInstanceId, ref citizen, stopPosition, nextStopPosition)
-                        )
-                        {
-                            if (popularities.ContainsKey(citizen.m_targetBuilding))
-                            {
-                                int previous = popularities[citizen.m_targetBuilding];
-
-                                popularities.Remove(citizen.m_targetBuilding);
-
-                                popularities.Add(citizen.m_targetBuilding, previous + 1);
-                            }
-                            else
-                            {
-                                popularities.Add(citizen.m_targetBuilding, 1);
-                            }
-                        }
-
-                        citizenInstanceId = nextGridInstance;
-                    }
-                }
-            }
-
-            return popularities.OrderByDescending(key => key.Value);
-        }
-
+        
         private void CheckForClose()
         {
             if (Input.GetKey(KeyCode.Escape))
