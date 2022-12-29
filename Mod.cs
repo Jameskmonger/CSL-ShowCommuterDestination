@@ -1,12 +1,13 @@
 ﻿using CitiesHarmony.API;
 using ColossalFramework.UI;
-using CSLShowCommuterDestination.Game;
+using CSLShowCommuterDestination.Game.Integrations;
 using ICities;
 using UnityEngine;
 
 // ReSharper disable InconsistentNaming
 
-namespace CSLShowCommuterDestination {
+namespace CSLShowCommuterDestination
+{
     public class Mod : LoadingExtensionBase, IUserMod
     {
         private GameObject stopDestinationInfoPanel;

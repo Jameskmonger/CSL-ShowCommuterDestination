@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace CSLShowCommuterDestination.Game
+namespace CSLShowCommuterDestination.Game.Integrations
 {
     /**
      * This class handles integrations with 3rd party mods - mostly checking if they are installed.
@@ -11,7 +11,7 @@ namespace CSLShowCommuterDestination.Game
     public class ModIntegrations
     {
         private static bool isIPT2Enabled = false;
-        
+
         public static void CheckEnabledMods()
         {
             var enabledMods = new HashSet<string>();
@@ -23,7 +23,7 @@ namespace CSLShowCommuterDestination.Game
                 }
             }
 
-            isIPT2Enabled = enabledMods.Contains("improvedpublictransport2");
+            isIPT2Enabled = enabledMods.Contains(IPT2Integration.ASSEMBLY_NAME);
         }
 
         /**

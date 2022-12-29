@@ -1,10 +1,8 @@
-﻿using ColossalFramework;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using CSLShowCommuterDestination.Game;
+using CSLShowCommuterDestination.Game.Integrations;
 using CSLShowCommuterDestination.Graph;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
