@@ -65,8 +65,7 @@ namespace CSLShowCommuterDestination
             this.transportLineId = Bridge.GetStopTransportLineId(this.stopId);
 
             this.DestinationGraph = DestinationGraphGenerator.GenerateGraph(this.stopId);
-
-            Debug.Log("Valid instance ID for StopDestinationInfoPanel");
+            
             WorldInfoPanel.HideAllWorldInfoPanels();
             this.m_LineNameLabel.text = Bridge.GetStopLineName(this.stopId) + " destinations";
             this.m_StopNameLabel.text = "Stop #" + Bridge.GetStopIndex(this.stopId);

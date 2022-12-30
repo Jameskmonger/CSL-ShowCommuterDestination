@@ -54,8 +54,6 @@ namespace CSLShowCommuterDestination.Patches
         {
             ushort stopId = (ushort)(component as UIButton).objectUserData;
 
-            Debug.Log("Opening stop destination screen for " + stopId);
-
             StopDestinationInfoPanel.instance.Show(stopId);
         }
     }
