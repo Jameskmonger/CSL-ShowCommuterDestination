@@ -15,6 +15,12 @@ namespace CSLShowCommuterDestination.Game.Integrations
         /// Iterates through the currently enabled mods and checks for the presence of assemblies relating to
         /// 3rd party mods that we support integrations with.
         /// </summary>
+        /// <remarks>
+        /// Some authors check by Steam Workshop item ID but I am choosing to check for assembly name.<br/>
+        /// The reason for this is that Workshop items can go out of date and be replaced by updated versions,
+        /// under a different item ID. For instance, at the time of writing, the "main" release of IPT2 is no longer
+        /// up to date for the current game.
+        /// </remarks>
         public static void CheckEnabledMods()
         {
             var enabledMods = new HashSet<string>();
