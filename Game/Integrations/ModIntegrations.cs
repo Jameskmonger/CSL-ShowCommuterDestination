@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 
 namespace CSLShowCommuterDestination.Game.Integrations
 {
@@ -22,11 +23,14 @@ namespace CSLShowCommuterDestination.Game.Integrations
             {
                 foreach (Assembly assembly in plugin.GetAssemblies())
                 {
-                    if (plugin.isEnabled) enabledMods.Add(assembly.GetName().Name.ToLower());
+                    if (plugin.isEnabled)
+                    {
+                        enabledMods.Add(assembly.GetName().Name.ToLower());
+                    }
                 }
             }
 
-            isIPT2Enabled = enabledMods.Contains(IPT2Integration.ASSEMBLY_NAME);
+            isIPT2Enabled = enabledMods.Contains(IPT2Integration.ASSEMBLY_NAME.ToLower());
         }
 
         /**
