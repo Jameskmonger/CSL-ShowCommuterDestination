@@ -1,11 +1,7 @@
-﻿using ColossalFramework;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using CSLShowCommuterDestination.Game;
+using CSLShowCommuterDestination.Game.Integrations;
 using CSLShowCommuterDestination.Graph;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 namespace CSLShowCommuterDestination
@@ -47,6 +43,8 @@ namespace CSLShowCommuterDestination
             StopDestinationInfoPanel.instance = this;
             base.Start();
             this.SetupPanel();
+
+            ModIntegrations.CheckEnabledMods();
         }
 
         public override void Update()
@@ -58,17 +56,10 @@ namespace CSLShowCommuterDestination
 
         public void Show(ushort stopId)
         {
-            InstanceID instanceId = InstanceID.Empty;
-            instanceId.NetNode = stopId;
-
-            if (!InstanceManager.IsValid(instanceId))
+            if (ModIntegrations.IsIPT2Enabled())
             {
-                Debug.LogWarning("Invalid instance ID for StopDestinationInfoPanel");
-                this.Hide();
-                return;
+                IPT2Integration.ShowStopPanel(stopId);
             }
-
-            this.AttemptToShowIPT2Panel(instanceId);
 
             this.stopId = stopId;
             this.transportLineId = Bridge.GetStopTransportLineId(this.stopId);
@@ -98,50 +89,6 @@ namespace CSLShowCommuterDestination
             var nextStop = TransportLine.GetNextStop(this.stopId);
 
             this.Show(nextStop);
-        }
-
-        private void AttemptToShowIPT2Panel(InstanceID instanceId)
-        {
-            Type iptType = Type.GetType("ImprovedPublicTransport2.PublicTransportStopWorldInfoPanel, ImprovedPublicTransport2");
-
-            if (iptType == null)
-            {
-                Debug.LogWarning("IPT2 panel type not found");
-                return;
-            }
-
-            var instanceField = iptType.GetField("instance", BindingFlags.Public | BindingFlags.Static);
-
-            if (instanceField == null)
-            {
-                Debug.LogWarning("'instance' field found in PublicTransportStopWorldInfoPanel");
-                return;
-            }
-
-            var iptStopPanelInstance = instanceField.GetValue(null);
-
-            if (iptStopPanelInstance == null)
-            {
-                Debug.LogWarning("'instance' field was null");
-                return;
-            }
-
-            var showMethod = iptType.GetMethod(
-                "Show",
-                BindingFlags.Public | BindingFlags.Instance,
-                null,
-                new[] { typeof(Vector3), typeof(InstanceID) },
-                null
-            );
-
-            if (showMethod == null)
-            {
-                Debug.LogWarning("'Show' method not found in PublicTransportStopWorldInfoPanel");
-                return;
-            }
-
-            var arguments = new object[] { Bridge.GetStopPosition(instanceId.NetNode), instanceId };
-            showMethod.Invoke(iptStopPanelInstance, arguments);
         }
         
         private void CheckForClose()
