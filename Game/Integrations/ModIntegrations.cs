@@ -1,21 +1,20 @@
 ﻿using ColossalFramework.Plugins;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
 
 namespace CSLShowCommuterDestination.Game.Integrations
 {
-    /**
-     * This class handles integrations with 3rd party mods - mostly checking if they are installed.
-     */
+    /// <summary>
+    /// This class handles integrations with 3rd party mods - checking if they are installed.
+    /// </summary>
     public class ModIntegrations
     {
         private static bool isIPT2Enabled = false;
 
-        /**
-         * Iterate through the currently enabled mods and check for the integrations we support.
-         */
+        /// <summary>
+        /// Iterates through the currently enabled mods and checks for the presence of assemblies relating to
+        /// 3rd party mods that we support integrations with.
+        /// </summary>
         public static void CheckEnabledMods()
         {
             var enabledMods = new HashSet<string>();
@@ -32,14 +31,13 @@ namespace CSLShowCommuterDestination.Game.Integrations
 
             isIPT2Enabled = enabledMods.Contains(IPT2Integration.ASSEMBLY_NAME.ToLower());
         }
-
-        /**
-         * Is Improved Public Transport 2 currently enabled?
-         * 
-         * https://steamcommunity.com/sharedfiles/filedetails/?id=928128676
-         * 
-         * @return true if IPT2 is enabled, false otherwise.
-         */
+        
+        /// <summary>
+        /// Is Improved Public Transport 2 currently enabled?
+        /// 
+        /// https://steamcommunity.com/sharedfiles/filedetails/?id=928128676
+        /// </summary>
+        /// <returns>true if IPT2 is enabled, false otherwise.</returns>
         public static bool IsIPT2Enabled()
         {
             return isIPT2Enabled;
