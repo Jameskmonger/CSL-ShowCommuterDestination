@@ -12,6 +12,9 @@ namespace CSLShowCommuterDestination.Game.Integrations
     {
         private static bool isIPT2Enabled = false;
 
+        /**
+         * Iterate through the currently enabled mods and check for the integrations we support.
+         */
         public static void CheckEnabledMods()
         {
             var enabledMods = new HashSet<string>();
@@ -27,7 +30,7 @@ namespace CSLShowCommuterDestination.Game.Integrations
         }
 
         /**
-         * Check if Improved Public Transport 2 is currently enabled.
+         * Is Improved Public Transport 2 currently enabled?
          * 
          * https://steamcommunity.com/sharedfiles/filedetails/?id=928128676
          * 

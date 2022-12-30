@@ -13,6 +13,9 @@ namespace CSLShowCommuterDestination.Game.Integrations
     {
         public const string ASSEMBLY_NAME = "ImprovedPublicTransport2";
 
+        /**
+         * Open the IPT2 stop panel for the given stop.
+         */
         public static void ShowStopPanel(ushort stopId)
         {
             if (!ModIntegrations.IsIPT2Enabled())
