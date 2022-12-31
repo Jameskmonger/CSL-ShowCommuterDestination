@@ -33,11 +33,12 @@ namespace CSLShowCommuterDestination.UI
 
         public ushort stopId;
 
-        /**
-         * The graph of destinations for the currently selected stop.
-         * 
-         * TODO should this live on the panel?
-         */
+        /// <summary>
+        /// The graph of destinations for the currently selected stop.
+        /// </summary>
+        /// <remarks>
+        /// TODO should this live on the panel?
+        /// </remarks>
         public DestinationGraph DestinationGraph { get; private set; }
 
         private ushort transportLineId;

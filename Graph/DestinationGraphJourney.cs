@@ -2,32 +2,33 @@
 
 namespace CSLShowCommuterDestination.Graph
 {
-    /**
-     * This class represents a journey between a given stop and a given destination.
-     * 
-     * For instance, if 100 citizens travel from "Maple Lane Bus Stop" to "High Cliff University",
-     * there will be 1 DestinationGraphJourney object with a `popularity` of 100.
-     */
+    /// <summary>
+    /// This class represents a journey between a given stop and a given destination.    /// 
+    /// </summary>
+    /// <remarks>
+    /// For instance, if 100 citizens travel from "Maple Lane Bus Stop" to "High Cliff University",
+    /// there will be 1 DestinationGraphJourney object with a `popularity` of 100.
+    /// </remarks>
     public class DestinationGraphJourney
     {
-        /**
-         * The {@link DestinationGraphStop} that the commuters got off the line at.
-         */
+        /// <summary>
+        /// The {@link DestinationGraphStop} that the commuters got off the line at.
+        /// </summary>
         public DestinationGraphStop origin;
 
-        /**
-         * The building ID for the destination
-         */
+        /// <summary>
+        /// The building ID for the destination
+        /// </summary>
         public ushort destinationId;
 
-        /**
-         * The destination position
-         */
+        /// <summary>
+        /// The destination position
+        /// </summary>
         public Vector3 destination;
 
-        /**
-         * The number of commuters travelling from the origin to the destination
-         */
+        /// <summary>
+        /// The number of commuters travelling from the origin to the destination
+        /// </summary>
         public int popularity = 1;
 
         public DestinationGraphJourney(DestinationGraphStop origin, ushort destinationId, Vector3 destination)
@@ -37,9 +38,9 @@ namespace CSLShowCommuterDestination.Graph
             this.destination = destination;
         }
 
-        /**
-         * Add one commuter to the popularity count
-         */
+        /// <summary>
+        /// Add one commuter to the popularity count
+        /// </summary>
         public void IncreasePopularity()
         {
             popularity++;

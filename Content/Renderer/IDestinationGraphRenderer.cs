@@ -1,19 +1,17 @@
 ﻿using CSLShowCommuterDestination.Graph;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace CSLShowCommuterDestination.Content.Renderer
 {
-    /**
-     * This interface represents a renderer for a {@link DestinationGraph}.
-     */
+    /// <summary>
+    /// This interface represents a renderer for a <seealso cref="DestinationGraph"/>
+    /// </summary>
     internal interface IDestinationGraphRenderer
     {
-        /**
-         * Renders the given {@link DestinationGraph} to the screen.
-         */
+        /// <summary>
+        /// Renders the given <seealso cref="DestinationGraph"/> to the screen.
+        /// </summary>
+        /// <param name="cameraInfo">the camera</param>
+        /// <param name="graph">the graph to render</param>
         void Render(RenderManager.CameraInfo cameraInfo, DestinationGraph graph);
     }
 }

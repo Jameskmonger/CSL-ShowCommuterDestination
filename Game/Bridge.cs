@@ -10,25 +10,31 @@ namespace CSLShowCommuterDestination.Game
     /// </summary>
     public class Bridge
     {
-        /**
-         * Gets the {@link NetNode} for the given stop ID.
-         */
+        /// <summary>
+        /// Gets the {@link NetNode} for the given stop ID.
+        /// </summary>
+        /// <param name="stopId">the stop ID to look up</param>
+        /// <returns>the NetNode</returns>
         public static NetNode GetStopNode(ushort stopId)
         {
             return Singleton<NetManager>.instance.m_nodes.m_buffer[stopId];
         }
 
-        /**
-         * Gets the position for the given stop ID.
-         */
+        /// <summary>
+        /// Gets the position for the given stop ID.
+        /// </summary>
+        /// <param name="stopId">the stop ID to look up</param>
+        /// <returns>the world position of the stop</returns>
         public static Vector3 GetStopPosition(ushort stopId)
         {
             return GetStopNode(stopId).m_position;
         }
 
-        /**
-         * Gets the count of passengers currently waiting at the given stop ID.
-         */
+        /// <summary>
+        /// Gets the count of passengers currently waiting at the given stop ID.
+        /// </summary>
+        /// <param name="stopId">the stop ID to look up</param>
+        /// <returns>the number of passengers</returns>
         public static int GetStopPassengerCount(ushort stopId)
         {
             var transportLineId = GetStopTransportLineId(stopId);
@@ -36,9 +42,12 @@ namespace CSLShowCommuterDestination.Game
             return Singleton<TransportManager>.instance.m_lines.m_buffer[transportLineId].CalculatePassengerCount(stopId);
         }
 
-        /**
-         * Gets the index of the stop within the line
-         */
+        /// <summary>
+        /// Gets the index of the stop within the line
+        /// </summary>
+        /// <remarks>the first stop is 1, the second is 2, etc</remarks>
+        /// <param name="stopId">the stop ID to look up</param>
+        /// <returns>the index of the stop</returns>
         public static int GetStopIndex(ushort stopId)
         {
             var transportLineId = GetStopTransportLineId(stopId);
@@ -65,9 +74,10 @@ namespace CSLShowCommuterDestination.Game
             return 0;
         }
 
-        /**
-         * Sets the player's camera on the position of the given stop ID.
-         */
+        /// <summary>
+        /// Sets the player's camera on the position of the given stop ID.
+        /// </summary>
+        /// <param name="stopId">the stop ID to look up</param>
         public static void SetCameraOnStop(ushort stopId)
         {
             InstanceID instanceId = InstanceID.Empty;
@@ -78,14 +88,13 @@ namespace CSLShowCommuterDestination.Game
             ToolsModifierControl.cameraController.SetTarget(instanceId, stopPosition, false);
         }
 
-        /**
-         * Is the citizen within the given stop ID's radius?
-         *
-         * @param citizenId The citizen ID
-         * @param stopId The stop ID
-         * @param range The range to check
-         * @return `true` if the citizen is within the stop's radius, `false` otherwise
-         */
+        /// <summary>
+        /// Is the citizen within range of the given stop ID's?
+        /// </summary>
+        /// <param name="citizenId">the citizen ID</param>
+        /// <param name="stopId">the stop ID</param>
+        /// <param name="range">the range to check</param>
+        /// <returns>`true` if the citizen is within the stop's radius, `false` otherwise</returns>
         public static bool IsCitizenInRangeOfStop(ushort citizenId, ushort stopId, double range)
         {
             CitizenInstance citizen = Singleton<CitizenManager>.instance.m_instances.m_buffer[(int)citizenId];
@@ -95,11 +104,14 @@ namespace CSLShowCommuterDestination.Game
             return Vector3.SqrMagnitude((Vector3)citizen.m_targetPos - stopPosition) < (range * range);
         }
 
-        /**
-         *  Get the closest destination stop for a citizen, given their origin stop
-         *  
-         *  most of this is ripped from TransportArriveAtTarget
-         */
+        /// <summary>
+        /// Get the closest destination stop for a citizen, given their origin stop<br />
+        /// i.e. the stop at which they will get off the transit line after getting on at the origin stop
+        /// </summary>
+        /// <remarks>most of this is ripped from TransportArriveAtTarget</remarks>
+        /// <param name="originalStopId">the citizen's origin stop</param>
+        /// <param name="citizen">the citizen</param>
+        /// <returns></returns>
         public static ushort GetDestinationStopId(ushort originalStopId, CitizenInstance citizen)
         {
             ushort currentStop = TransportLine.GetNextStop(originalStopId);
@@ -178,17 +190,21 @@ namespace CSLShowCommuterDestination.Game
             return true;
         }
 
-        /**
-         * Gets the transport line ID for the given stop ID.
-         */
+        /// <summary>
+        /// Gets the transport line ID for the given stop ID.
+        /// </summary>
+        /// <param name="stopId">the stop ID to look up</param>
+        /// <returns>the transport line ID of the stop</returns>
         public static ushort GetStopTransportLineId(ushort stopId)
         {
             return GetStopNode(stopId).m_transportLine;
         }
 
-        /**
-         * Gets the color for the transport line that the given stop ID is part of.
-         */
+        /// <summary>
+        /// Gets the color for the transport line that the given stop ID is part of.
+        /// </summary>
+        /// <param name="stopId">the stop ID to look up</param>
+        /// <returns>the color of the stop's transport line</returns>
         public static Color32 GetStopLineColor(ushort stopId)
         {
             var transportLineId = GetStopTransportLineId(stopId);
@@ -196,9 +212,11 @@ namespace CSLShowCommuterDestination.Game
             return Singleton<TransportManager>.instance.m_lines.m_buffer[transportLineId].m_color;
         }
 
-        /**
-         * Gets the name for the transport line that the given stop ID is part of.
-         */
+        /// <summary>
+        /// Gets the name for the transport line that the given stop ID is part of.
+        /// </summary>
+        /// <param name="stopId">the stop ID to look up</param>
+        /// <returns>the name of the stop's transport line</returns>
         public static string GetStopLineName(ushort stopId)
         {
             var transportLineId = GetStopTransportLineId(stopId);
@@ -206,9 +224,11 @@ namespace CSLShowCommuterDestination.Game
             return Singleton<TransportManager>.instance.GetLineName(transportLineId);
         }
 
-        /**
-         * Gets the position of the given building ID.
-         */
+        /// <summary>
+        /// Gets the position of the given building ID.
+        /// </summary>
+        /// <param name="buildingId">the building ID to look up</param>
+        /// <returns>the position of the building</returns>
         public static Vector3 GetBuildingPosition(ushort buildingId)
         {
             return Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingId].m_position;

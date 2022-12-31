@@ -5,27 +5,27 @@ using UnityEngine;
 
 namespace CSLShowCommuterDestination.Graph
 {
-    /**
-     * A single stop on a transport line.
-     *
-     * Tracks the buildings that passengers are travelling to after getting off the
-     * transport line at this stop.
-     */
+    /// <summary>
+    /// A single stop on a transport line.<br/>
+    /// 
+    /// Tracks the buildings that passengers are travelling to after getting off the
+    /// transport line at this stop.
+    /// </summary>
     public class DestinationGraphStop
     {
-        /**
-         * The position of the stop
-         */
+        /// <summary>
+        /// The position of the stop
+        /// </summary>
         public readonly Vector3 position;
 
-        /**
-         * The ID of this stop.
-         */
+        /// <summary>
+        /// The ID of this stop.
+        /// </summary>
         private readonly ushort stopId;
 
-        /**
-         * A list of journeys from this stop.
-         */
+        /// <summary>
+        /// A list of journeys from this stop.
+        /// </summary>
         private readonly Dictionary<ushort, DestinationGraphJourney> journeys = new Dictionary<ushort, DestinationGraphJourney>();
 
         public DestinationGraphStop(ushort stopId)
@@ -34,14 +34,13 @@ namespace CSLShowCommuterDestination.Graph
             this.position = Bridge.GetStopPosition(stopId);
         }
 
-        /**
-         * Increase the popularity of a given building ID from this stop.
-         * 
-         * This will create a new {@link DestinationGraphJourney} if one does not already exist
-         * for the given building ID.
-         *
-         * @param buildingId The building ID that the passenger is travelling to.
-         */
+        /// <summary>
+        /// Increase the popularity of a given building ID from this stop.<br/>
+        /// 
+        /// This will create a new {@link DestinationGraphJourney} if one does not already exist
+        /// for the given building ID.
+        /// </summary>
+        /// <param name="buildingId">the building ID that the passenger is travelling to</param>
         public void AddJourney(ushort buildingId)
         {
             if (journeys.ContainsKey(buildingId))
@@ -56,9 +55,10 @@ namespace CSLShowCommuterDestination.Graph
             }
         }
 
-        /**
-         * Get the list of {@link DestinationJourney} from this stop
-         */
+        /// <summary>
+        /// Get the list of {@link DestinationJourney} from this stop
+        /// </summary>
+        /// <returns>the journeys</returns>
         public IEnumerable<DestinationGraphJourney> GetJourneys()
         {
             return journeys.Values;

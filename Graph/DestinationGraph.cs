@@ -2,14 +2,14 @@
 
 namespace CSLShowCommuterDestination.Graph
 {
-    /**
-     * A graph of destinations from a series of transport line stops.
-     */
+    /// <summary>
+    /// A graph of destinations from a series of transport line stops.
+    /// </summary>
     public class DestinationGraph
     {
-        /**
-         * The stops on the transport line
-         */
+        /// <summary>
+        /// The stops on the transport line
+        /// </summary>
         public readonly IEnumerable<DestinationGraphStop> stops;
 
         public DestinationGraph(IEnumerable<DestinationGraphStop> stops)

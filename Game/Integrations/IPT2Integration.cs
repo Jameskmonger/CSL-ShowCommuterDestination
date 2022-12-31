@@ -4,18 +4,18 @@ using UnityEngine;
 
 namespace CSLShowCommuterDestination.Game.Integrations
 {
-    /**
-     * Integration with Improved Public Transport 2
-     * 
-     * https://steamcommunity.com/sharedfiles/filedetails/?id=928128676
-     */
+    /// <summary>
+    /// Integration with Improved Public Transport 2<br/>
+    /// https://steamcommunity.com/sharedfiles/filedetails/?id=928128676
+    /// </summary>
     public class IPT2Integration
     {
         public const string ASSEMBLY_NAME = "ImprovedPublicTransport2";
 
-        /**
-         * Open the IPT2 stop panel for the given stop.
-         */
+        /// <summary>
+        /// Open the IPT2 stop panel for the given stop.
+        /// </summary>
+        /// <param name="stopId">the stop id to open</param>
         public static void ShowStopPanel(ushort stopId)
         {
             if (!ModIntegrations.IsIPT2Enabled())

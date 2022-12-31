@@ -6,20 +6,17 @@ using UnityEngine;
 
 namespace CSLShowCommuterDestination.Game
 {
-    /**
-     * This class is responsible for generating a {@link DestinationGraph} for a given stop.
-     */
+    /// <summary>
+    /// This class is responsible for generating a {@link DestinationGraph} for a given stop.
+    /// </summary>
     public class DestinationGraphGenerator
     {
-        /**
-         * Generate a {@link DestinationGraph} for a given stop.
-         * 
-         * This logic is taken from LoadPassengers in the game logic (e.g. in BusAI)
-         * 
-         * @param stopId The stop to generate the graph for.
-         * 
-         * @return The generated graph.
-         */
+        /// <summary>
+        /// Generate a {@link DestinationGraph} for a given stop.
+        /// </summary>
+        /// <remarks>This logic is taken from LoadPassengers in the game logic (e.g. in BusAI)</remarks>
+        /// <param name="stopId">the origin stop</param>
+        /// <returns>the generated graph</returns>
         public static DestinationGraph GenerateGraph(ushort stopId)
         {            
             var transitRange = GetStopRange(stopId);
@@ -70,16 +67,14 @@ namespace CSLShowCommuterDestination.Game
             return new DestinationGraph(stops.Select(j => j.Value));
         }
 
-        /**
-         * Check if a given citizen is waiting at a given stop.
-         * 
-         * @param citizen The citizen to check
-         * @param citizenInstanceId The citizen instance ID
-         * @param stopId The stop to check
-         * @param stopRange The range of the stop
-         * 
-         * @return true if the citizen is waiting at the stop
-         */
+        /// <summary>
+        /// Check if a given citizen is waiting at a given stop.
+        /// </summary>
+        /// <param name="citizen">the citizen to check</param>
+        /// <param name="citizenInstanceId">the citizen's instance ID</param>
+        /// <param name="stopId">the stop to check</param>
+        /// <param name="stopRange">the range of the stop</param>
+        /// <returns>`true` if the citizen is waiting at the stop, false otherwise</returns>
         private static bool IsCitizenAtStop(ref CitizenInstance citizen, ushort citizenInstanceId, ushort stopId, float stopRange)
         {
             var citizenIsAtStop = Bridge.IsCitizenInRangeOfStop(citizenInstanceId, stopId, (double)stopRange);
@@ -100,17 +95,15 @@ namespace CSLShowCommuterDestination.Game
             );
         }
 
-        /**
-         * Get the transit range of a given stop.
-         * 
-         * These values are taken from the LoadPassengers game methods.
-         * 
-         * TODO should this live in Bridge instead?
-         * 
-         * @param stopId The stop to get the transit range for.
-         * 
-         * @return The transit range
-         */
+        /// <summary>
+        /// Get the transit range of a given stop.
+        /// </summary>
+        /// <remarks>
+        /// These values are taken from the LoadPassengers game methods.<br/>
+        /// TODO should this live in Bridge instead?
+        /// </remarks>
+        /// <param name="stopId">the stop to get the transit range for</param>
+        /// <returns>the transit range</returns>
         private static float GetStopRange(ushort stopId)
         {
             // TODO take transit type into account

@@ -4,15 +4,15 @@ using CSLShowCommuterDestination.UI;
 
 namespace CSLShowCommuterDestination.Content
 {
-    /**
-     * Responsible for rendering the {@link DestinationGraph} when the user has the
-     * mod panel ({@link StopDestinationInfoPanel} open.
-     */
+    /// <summary>
+    /// Responsible for rendering the <seealso cref="DestinationGraph"/> when the user has the
+    /// mod panel <seealso cref="StopDestinationInfoPanel"/> open.
+    /// </summary>
     public class DestinationDisplayManager : SimulationManagerBase<DestinationDisplayManager, MonoBehaviour>, IRenderableManager
     {
-        /**
-         * A renderer for the default, red, "old man" notification icon.
-         */
+        /// <summary>
+        /// A renderer for the default, red, "old man" notification icon.
+        /// </summary>
         private readonly IDestinationGraphRenderer notificationRenderer = new NotificationDestinationGraphRenderer();
 
         protected override void BeginOverlayImpl(RenderManager.CameraInfo cameraInfo)
