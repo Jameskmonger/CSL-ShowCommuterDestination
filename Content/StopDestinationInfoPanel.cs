@@ -38,6 +38,17 @@ namespace CSLShowCommuterDestination.Content
         private UILabel m_StopNameLabel;
         private UILabel m_PassengerCountLabel;
 
+        public StopDestinationInfoPanel()
+        {
+            name = "StopDestinationInfoPanel";
+            canFocus = true;
+            isInteractive = true;
+            width = PanelConfig.PanelWidth;
+            height = PanelConfig.PanelHeight;
+            backgroundSprite = "MenuPanel";
+            padding = new RectOffset(10, 10, 5, 5);
+        }
+
         public override void Start()
         {
             StopDestinationInfoPanel.instance = this;
@@ -100,18 +111,11 @@ namespace CSLShowCommuterDestination.Content
 
         private void SetupPanel()
         {
-            this.name = "StopDestinationInfoPanel";
             this.isVisible = false;
-            this.canFocus = true;
-            this.isInteractive = true;
             this.anchor = UIAnchorStyle.None;
             this.pivot = UIPivotPoint.MiddleCenter;
             this.relativePosition = Vector3.zero;
-            this.width = PanelConfig.PanelWidth;
-            this.height = PanelConfig.PanelHeight;
-            this.backgroundSprite = "MenuPanel";
 
-            this.padding = new RectOffset(10, 10, 5, 5);
 
             UIPanel titleBar = this.AddUIComponent<UIPanel>();
             titleBar.width = PanelConfig.TitleWidth;
