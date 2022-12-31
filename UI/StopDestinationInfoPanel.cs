@@ -5,7 +5,7 @@ using CSLShowCommuterDestination.Graph;
 using CSLShowCommuterDestination.UI.Components;
 using UnityEngine;
 
-namespace CSLShowCommuterDestination.Content
+namespace CSLShowCommuterDestination.UI
 {
     /// <summary>
     /// The main Commuter Destination info panel, shown when the user opens a
@@ -62,9 +62,9 @@ namespace CSLShowCommuterDestination.Content
         /// </summary>
         public override void Start()
         {
-            StopDestinationInfoPanel.instance = this;
+            instance = this;
             base.Start();
-            this.SetupPanel();
+            SetupPanel();
 
             // TODO this should not be here - bad separation of concerns
             ModIntegrations.CheckEnabledMods();
@@ -77,7 +77,7 @@ namespace CSLShowCommuterDestination.Content
         {
             base.Update();
 
-            this.CheckForClose();
+            CheckForClose();
         }
 
         /// <summary>
@@ -93,35 +93,35 @@ namespace CSLShowCommuterDestination.Content
             }
 
             this.stopId = stopId;
-            this.transportLineId = Bridge.GetStopTransportLineId(this.stopId);
+            transportLineId = Bridge.GetStopTransportLineId(this.stopId);
 
-            this.DestinationGraph = DestinationGraphGenerator.GenerateGraph(this.stopId);
-            
+            DestinationGraph = DestinationGraphGenerator.GenerateGraph(this.stopId);
+
             WorldInfoPanel.HideAllWorldInfoPanels();
-            this.m_LineNameLabel.text = Bridge.GetStopLineName(this.stopId) + " destinations";
-            this.m_StopNameLabel.text = "Stop #" + Bridge.GetStopIndex(this.stopId);
-            this.m_PassengerCountLabel.text = "Waiting passengers: " + Bridge.GetStopPassengerCount(this.stopId);
-      
+            m_LineNameLabel.text = Bridge.GetStopLineName(this.stopId) + " destinations";
+            m_StopNameLabel.text = "Stop #" + Bridge.GetStopIndex(this.stopId);
+            m_PassengerCountLabel.text = "Waiting passengers: " + Bridge.GetStopPassengerCount(this.stopId);
+
             Bridge.SetCameraOnStop(this.stopId);
 
             // TODO improve this, its not very reliable
             relativePosition = new Vector3(400f, 400f);
 
-            base.Show();
+            Show();
         }
 
         private void MoveToPrevStop()
         {
-            var prevStop = TransportLine.GetPrevStop(this.stopId);
+            var prevStop = TransportLine.GetPrevStop(stopId);
 
-            this.Show(prevStop);
+            Show(prevStop);
         }
 
         private void MoveToNextStop()
         {
-            var nextStop = TransportLine.GetNextStop(this.stopId);
+            var nextStop = TransportLine.GetNextStop(stopId);
 
-            this.Show(nextStop);
+            Show(nextStop);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace CSLShowCommuterDestination.Content
         {
             if (Input.GetKey(KeyCode.Escape))
             {
-                this.Hide();
+                Hide();
             }
         }
 
@@ -146,16 +146,16 @@ namespace CSLShowCommuterDestination.Content
         /// </summary>
         private void SetupPanel()
         {
-            this.isVisible = false;
-            this.anchor = UIAnchorStyle.None;
-            this.pivot = UIPivotPoint.MiddleCenter;
-            this.relativePosition = Vector3.zero;
+            isVisible = false;
+            anchor = UIAnchorStyle.None;
+            pivot = UIPivotPoint.MiddleCenter;
+            relativePosition = Vector3.zero;
 
             CreateTitleBar(this, "TitleBar", "Commuter Destination");
 
-            UIPanel container = this.AddUIComponent<UIPanel>();
+            UIPanel container = AddUIComponent<UIPanel>();
             container.name = "Container";
-            container.width = this.width;
+            container.width = width;
             container.height = 100.0f;
             container.autoLayout = true;
             container.autoLayoutDirection = LayoutDirection.Vertical;
@@ -164,17 +164,17 @@ namespace CSLShowCommuterDestination.Content
             container.relativePosition = new Vector3(0.0f, 40.0f);
             container.padding = new RectOffset(10, 10, 5, 5);
 
-            this.m_LineNameLabel = CreateLabel(container, "LineNameLabel", "Line Name");
-            this.m_LineNameLabel.relativePosition = new Vector3(0.0f, 20.0f);
+            m_LineNameLabel = CreateLabel(container, "LineNameLabel", "Line Name");
+            m_LineNameLabel.relativePosition = new Vector3(0.0f, 20.0f);
 
-            this.m_StopNameLabel = CreateLabel(container, "StopNameLabel", "Stop Name");
-            this.m_StopNameLabel.relativePosition = new Vector3(0.0f, 40.0f);
+            m_StopNameLabel = CreateLabel(container, "StopNameLabel", "Stop Name");
+            m_StopNameLabel.relativePosition = new Vector3(0.0f, 40.0f);
 
             var stopNavigation = CreateStopNavigation(container);
             stopNavigation.relativePosition = new Vector3(0.0f, 60.0f);
 
-            this.m_PassengerCountLabel = CreateLabel(container, "PassengerCountLabel", "Passenger Count");
-            this.m_PassengerCountLabel.relativePosition = new Vector3(0.0f, 90.0f);
+            m_PassengerCountLabel = CreateLabel(container, "PassengerCountLabel", "Passenger Count");
+            m_PassengerCountLabel.relativePosition = new Vector3(0.0f, 90.0f);
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace CSLShowCommuterDestination.Content
         /// </summary>
         private void OnCloseButtonClick(UIComponent component, UIMouseEventParameter eventParam)
         {
-            this.Hide();
+            Hide();
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace CSLShowCommuterDestination.Content
         /// </summary>
         private void OnPrevStopButtonClick(UIComponent component, UIMouseEventParameter eventParam)
         {
-            this.MoveToPrevStop();
+            MoveToPrevStop();
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace CSLShowCommuterDestination.Content
         /// </summary>
         private void OnNextStopButtonClick(UIComponent component, UIMouseEventParameter eventParam)
         {
-            this.MoveToNextStop();
+            MoveToNextStop();
         }
 
         /// <summary>

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using ColossalFramework.UI;
-using CSLShowCommuterDestination.Content;
 using CSLShowCommuterDestination.Game.Integrations;
+using CSLShowCommuterDestination.UI;
 using HarmonyLib;
 
 namespace CSLShowCommuterDestination.Patches

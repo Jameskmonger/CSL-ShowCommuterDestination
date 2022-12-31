@@ -1,5 +1,5 @@
-﻿using CSLShowCommuterDestination.Content;
-using CSLShowCommuterDestination.Game.Integrations;
+﻿using CSLShowCommuterDestination.Game.Integrations;
+using CSLShowCommuterDestination.UI;
 using HarmonyLib;
 using System;
 using System.Reflection;
