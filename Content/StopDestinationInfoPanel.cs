@@ -129,16 +129,10 @@ namespace CSLShowCommuterDestination.Content
             container.relativePosition = new Vector3(0.0f, 40.0f);
             container.padding = new RectOffset(10, 10, 5, 5);
 
-            this.m_LineNameLabel = container.AddUIComponent<UILabel>();
-            this.m_LineNameLabel.name = "LineNameLabel";
-            this.m_LineNameLabel.text = "Line Name";
-            this.m_LineNameLabel.textScale = 0.8f;
+            this.m_LineNameLabel = CreateLabel(container, "LineNameLabel", "Line Name");
             this.m_LineNameLabel.relativePosition = new Vector3(0.0f, 20.0f);
 
-            this.m_StopNameLabel = container.AddUIComponent<UILabel>();
-            this.m_StopNameLabel.name = "StopNameLabel";
-            this.m_StopNameLabel.text = "Stop Name";
-            this.m_StopNameLabel.textScale = 0.8f;
+            this.m_StopNameLabel = CreateLabel(container, "StopNameLabel", "Stop Name");
             this.m_StopNameLabel.relativePosition = new Vector3(0.0f, 40.0f);
 
             UIPanel stopNavigation = container.AddUIComponent<UIPanel>();
@@ -172,10 +166,7 @@ namespace CSLShowCommuterDestination.Content
             nextStop.wordWrap = true;
             nextStop.eventClick += new MouseEventHandler(this.OnNextStopButtonClick);
 
-            this.m_PassengerCountLabel = container.AddUIComponent<UILabel>();
-            this.m_PassengerCountLabel.name = "PassengerCountLabel";
-            this.m_PassengerCountLabel.text = "Passenger Count";
-            this.m_PassengerCountLabel.textScale = 0.8f;
+            this.m_PassengerCountLabel = CreateLabel(container, "PassengerCountLabel", "Passenger Count");
             this.m_PassengerCountLabel.relativePosition = new Vector3(0.0f, 90.0f);
         }
 
@@ -192,6 +183,17 @@ namespace CSLShowCommuterDestination.Content
         private void OnNextStopButtonClick(UIComponent component, UIMouseEventParameter eventParam)
         {
             this.MoveToNextStop();
+        }
+
+        private UILabel CreateLabel(UIComponent container, string name, string text)
+        {
+            var label = container.AddUIComponent<UILabel>();
+
+            label.name = name;
+            label.text = text;
+            label.textScale = 0.8f;
+
+            return label;
         }
 
         private UIButton CreateButton(UIComponent parent)
