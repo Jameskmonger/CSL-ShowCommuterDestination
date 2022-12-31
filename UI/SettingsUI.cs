@@ -1,5 +1,5 @@
 ﻿using ColossalFramework.UI;
-using CSLShowCommuterDestination.Game.Integrations;
+using CSLShowCommuterDestination.Game.Integrations.IPT2;
 
 namespace CSLShowCommuterDestination.UI
 {
