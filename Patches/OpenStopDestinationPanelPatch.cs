@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using ColossalFramework.UI;
-using CSLShowCommuterDestination.Game.Integrations.IPT2;
+using CSLShowCommuterDestination.Integrations.IPT2;
 using CSLShowCommuterDestination.UI;
 using HarmonyLib;
 

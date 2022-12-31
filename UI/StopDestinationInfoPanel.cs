@@ -1,6 +1,6 @@
 ﻿using ColossalFramework.UI;
 using CSLShowCommuterDestination.Game;
-using CSLShowCommuterDestination.Game.Integrations.IPT2;
+using CSLShowCommuterDestination.Integrations.IPT2;
 using CSLShowCommuterDestination.Graph;
 using CSLShowCommuterDestination.UI.Components;
 using UnityEngine;

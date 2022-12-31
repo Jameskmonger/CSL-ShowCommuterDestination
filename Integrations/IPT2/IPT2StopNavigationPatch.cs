@@ -1,10 +1,9 @@
-﻿using CSLShowCommuterDestination.Game.Integrations;
-using CSLShowCommuterDestination.UI;
+﻿using CSLShowCommuterDestination.UI;
 using HarmonyLib;
 using System;
 using System.Reflection;
 
-namespace CSLShowCommuterDestination.Game.Integrations.IPT2
+namespace CSLShowCommuterDestination.Integrations.IPT2
 {
     /// <summary>
     /// This patch listens to the "Previous Stop" and "Next Stop" buttons in the IPT2 stop info panel.

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using CSLShowCommuterDestination.Game;
+using System;
 using System.Reflection;
 using UnityEngine;
 
-namespace CSLShowCommuterDestination.Game.Integrations.IPT2
+namespace CSLShowCommuterDestination.Integrations.IPT2
 {
     /// <summary>
     /// Integration with Improved Public Transport 2<br/>

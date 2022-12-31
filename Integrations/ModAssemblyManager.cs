@@ -3,7 +3,7 @@ using ICities;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace CSLShowCommuterDestination.Game.Integrations
+namespace CSLShowCommuterDestination.Integrations
 {
     /// <summary>
     /// Responsible for checking the presence of the assemblies of other mods we care about.

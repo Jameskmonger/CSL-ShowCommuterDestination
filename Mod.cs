@@ -1,6 +1,5 @@
 ﻿using CitiesHarmony.API;
 using ColossalFramework.UI;
-using CSLShowCommuterDestination.Game.Integrations;
 using CSLShowCommuterDestination.UI;
 using ICities;
 using UnityEngine;
