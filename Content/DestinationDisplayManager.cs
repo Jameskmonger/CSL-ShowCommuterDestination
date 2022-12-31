@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using CSLShowCommuterDestination.Content.Renderer;
 
-namespace CSLShowCommuterDestination
+namespace CSLShowCommuterDestination.Content
 {
     /**
      * Responsible for rendering the {@link DestinationGraph} when the user has the

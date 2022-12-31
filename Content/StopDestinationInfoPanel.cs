@@ -1,10 +1,10 @@
-﻿using ColossalFramework.UI;
+using ColossalFramework.UI;
 using CSLShowCommuterDestination.Game;
 using CSLShowCommuterDestination.Game.Integrations;
 using CSLShowCommuterDestination.Graph;
 using UnityEngine;
 
-namespace CSLShowCommuterDestination
+namespace CSLShowCommuterDestination.Content
 {
     public class StopDestinationInfoPanel : UIPanel
     {

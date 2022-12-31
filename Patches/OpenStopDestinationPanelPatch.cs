@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using ColossalFramework.UI;
+using CSLShowCommuterDestination.Content;
 using CSLShowCommuterDestination.Game.Integrations;
 using HarmonyLib;
-using UnityEngine;
 
 namespace CSLShowCommuterDestination.Patches
 {
@@ -54,6 +54,7 @@ namespace CSLShowCommuterDestination.Patches
         {
             ushort stopId = (ushort)(component as UIButton).objectUserData;
 
+            // TODO this probably shouldn't be referring to the UI panel directly - bad separation of concerns
             StopDestinationInfoPanel.instance.Show(stopId);
         }
     }
