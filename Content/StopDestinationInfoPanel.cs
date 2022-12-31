@@ -1,4 +1,4 @@
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using CSLShowCommuterDestination.Game;
 using CSLShowCommuterDestination.Game.Integrations;
 using CSLShowCommuterDestination.Graph;
@@ -84,6 +84,9 @@ namespace CSLShowCommuterDestination.Content
             this.m_PassengerCountLabel.text = "Waiting passengers: " + Bridge.GetStopPassengerCount(this.stopId);
       
             Bridge.SetCameraOnStop(this.stopId);
+
+            // TODO improve this, its not very reliable
+            relativePosition = new Vector3(400f, 400f);
 
             this.Show();
         }
