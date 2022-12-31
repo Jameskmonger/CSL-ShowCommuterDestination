@@ -116,34 +116,7 @@ namespace CSLShowCommuterDestination.Content
             this.pivot = UIPivotPoint.MiddleCenter;
             this.relativePosition = Vector3.zero;
 
-
-            UIPanel titleBar = this.AddUIComponent<UIPanel>();
-            titleBar.width = PanelConfig.TitleWidth;
-            titleBar.height = PanelConfig.TitleHeight;
-            titleBar.relativePosition = Vector3.zero;
-
-            UILabel title = titleBar.AddUIComponent<UILabel>();
-            title.name = "TitleLabel";
-            title.text = "Commuter Destinations";
-            title.isInteractive = false;
-            title.width = titleBar.width;
-            title.relativePosition = new Vector3(10.0f, 10.0f);
-            title.textColor = new Color32(231, 220, 161, 255);
-
-            UIDragHandle dragHandle = titleBar.AddUIComponent<UIDragHandle>();
-            dragHandle.width = titleBar.width;
-            dragHandle.height = titleBar.height;
-            dragHandle.relativePosition = Vector3.zero;
-            dragHandle.target = titleBar.parent;
-
-            UIButton closeButton = titleBar.AddUIComponent<UIButton>();
-            closeButton.name = "CloseButton";
-            closeButton.size = new Vector2(PanelConfig.CloseButtonSize, PanelConfig.CloseButtonSize);
-            closeButton.normalBgSprite = "buttonclose";
-            closeButton.hoveredBgSprite = "buttonclosehover";
-            closeButton.pressedBgSprite = "buttonclosepressed";
-            closeButton.relativePosition = new Vector3(PanelConfig.CloseButtonX, PanelConfig.CloseButtonY);
-            closeButton.eventClick += new MouseEventHandler(this.OnCloseButtonClick);
+            CreateTitleBar(this, "TitleBar", "Commuter Destination");
 
             UIPanel container = this.AddUIComponent<UIPanel>();
             container.name = "Container";
@@ -237,6 +210,39 @@ namespace CSLShowCommuterDestination.Content
             uiButton.focusedTextColor = new Color32(255, 255, 255, 255);
             uiButton.pressedTextColor = new Color32(30, 30, 44, 255);
             return uiButton;
+        }
+
+        private UIPanel CreateTitleBar(UIComponent container, string name, string text)
+        {
+            UIPanel titleBar = container.AddUIComponent<UIPanel>();
+            titleBar.width = PanelConfig.TitleWidth;
+            titleBar.height = PanelConfig.TitleHeight;
+            titleBar.relativePosition = Vector3.zero;
+
+            UILabel title = titleBar.AddUIComponent<UILabel>();
+            title.name = name;
+            title.text = text;
+            title.isInteractive = false;
+            title.width = titleBar.width;
+            title.relativePosition = new Vector3(10.0f, 10.0f);
+            title.textColor = new Color32(231, 220, 161, 255);
+
+            UIDragHandle dragHandle = titleBar.AddUIComponent<UIDragHandle>();
+            dragHandle.width = titleBar.width;
+            dragHandle.height = titleBar.height;
+            dragHandle.relativePosition = Vector3.zero;
+            dragHandle.target = titleBar.parent;
+
+            UIButton closeButton = titleBar.AddUIComponent<UIButton>();
+            closeButton.name = "CloseButton";
+            closeButton.size = new Vector2(PanelConfig.CloseButtonSize, PanelConfig.CloseButtonSize);
+            closeButton.normalBgSprite = "buttonclose";
+            closeButton.hoveredBgSprite = "buttonclosehover";
+            closeButton.pressedBgSprite = "buttonclosepressed";
+            closeButton.relativePosition = new Vector3(PanelConfig.CloseButtonX, PanelConfig.CloseButtonY);
+            closeButton.eventClick += new MouseEventHandler(OnCloseButtonClick);
+
+            return titleBar;
         }
     }
 }
