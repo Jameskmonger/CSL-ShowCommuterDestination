@@ -28,7 +28,7 @@ namespace CSLShowCommuterDestination.UI
 
             var ipt2Label = integrationsPanel.AddUIComponent<UILabel>();
             ipt2Label.name = "integration_ipt2";
-            ipt2Label.text = "Improved Public Transport 2: " + (ModIntegrations.IsIPT2Enabled() ? "Detected" : "Not detected");
+            ipt2Label.text = "Improved Public Transport 2: " + (IPT2Integration.IsEnabled ? "Detected" : "Not detected");
         }
     }
 }

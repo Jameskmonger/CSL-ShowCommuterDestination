@@ -66,9 +66,6 @@ namespace CSLShowCommuterDestination.UI
             instance = this;
             base.Start();
             SetupPanel();
-
-            // TODO this should not be here - bad separation of concerns
-            ModIntegrations.CheckEnabledMods();
         }
 
         /// <summary>
@@ -88,7 +85,7 @@ namespace CSLShowCommuterDestination.UI
         public void Show(ushort stopId)
         {
             // TODO this should not be here - bad separation of concerns
-            if (ModIntegrations.IsIPT2Enabled())
+            if (IPT2Integration.IsEnabled)
             {
                 IPT2Integration.ShowStopPanel(stopId);
             }

@@ -10,7 +10,21 @@ namespace CSLShowCommuterDestination.Game.Integrations
     /// </summary>
     public class IPT2Integration
     {
+        /// <summary>
+        /// The name of the IPT2 assembly
+        /// </summary>
         public const string ASSEMBLY_NAME = "ImprovedPublicTransport2";
+
+        /// <summary>
+        /// Is the IPT2 integration enabled? i.e. is the IPT2 mod installed?
+        /// </summary>
+        public static bool IsEnabled
+        {
+            get
+            {
+                return ModAssemblyManager.IsModAssemblyEnabled(ASSEMBLY_NAME);
+            }
+        }
 
         /// <summary>
         /// Open the IPT2 stop panel for the given stop.
@@ -18,7 +32,7 @@ namespace CSLShowCommuterDestination.Game.Integrations
         /// <param name="stopId">the stop id to open</param>
         public static void ShowStopPanel(ushort stopId)
         {
-            if (!ModIntegrations.IsIPT2Enabled())
+            if (!IsEnabled)
             {
                 return;
             }
