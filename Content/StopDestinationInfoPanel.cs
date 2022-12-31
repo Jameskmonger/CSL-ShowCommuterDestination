@@ -2,6 +2,7 @@ using ColossalFramework.UI;
 using CSLShowCommuterDestination.Game;
 using CSLShowCommuterDestination.Game.Integrations;
 using CSLShowCommuterDestination.Graph;
+using CSLShowCommuterDestination.UI.Components;
 using UnityEngine;
 
 namespace CSLShowCommuterDestination.Content
@@ -135,36 +136,8 @@ namespace CSLShowCommuterDestination.Content
             this.m_StopNameLabel = CreateLabel(container, "StopNameLabel", "Stop Name");
             this.m_StopNameLabel.relativePosition = new Vector3(0.0f, 40.0f);
 
-            UIPanel stopNavigation = container.AddUIComponent<UIPanel>();
-            stopNavigation.name = "StopNavigation";
-            stopNavigation.width = container.width;
-            stopNavigation.height = 30.0f;
-            stopNavigation.autoLayout = true;
-            stopNavigation.autoLayoutDirection = LayoutDirection.Horizontal;
-            stopNavigation.autoLayoutPadding = new RectOffset(0, 0, 0, 0);
-            stopNavigation.autoLayoutStart = LayoutStart.TopLeft;
-            stopNavigation.padding = new RectOffset(0, 0, 0, 0);
+            var stopNavigation = CreateStopNavigation(container);
             stopNavigation.relativePosition = new Vector3(0.0f, 60.0f);
-
-            UIButton previousStop = this.CreateButton(stopNavigation);
-            previousStop.name = "PreviousStop";
-            previousStop.textPadding = new RectOffset(10, 10, 4, 0);
-            previousStop.text = "Previous";
-            previousStop.tooltip = "Navigate to the previous stop";
-            previousStop.textScale = 0.75f;
-            previousStop.size = new Vector2(110f, 30f);
-            previousStop.wordWrap = true;
-            previousStop.eventClick += new MouseEventHandler(this.OnPrevStopButtonClick);
-
-            UIButton nextStop = this.CreateButton(stopNavigation);
-            nextStop.name = "NextStop";
-            nextStop.textPadding = new RectOffset(10, 10, 4, 0);
-            nextStop.text = "Next";
-            nextStop.tooltip = "Navigate to the next stop";
-            nextStop.textScale = 0.75f;
-            nextStop.size = new Vector2(110f, 30f);
-            nextStop.wordWrap = true;
-            nextStop.eventClick += new MouseEventHandler(this.OnNextStopButtonClick);
 
             this.m_PassengerCountLabel = CreateLabel(container, "PassengerCountLabel", "Passenger Count");
             this.m_PassengerCountLabel.relativePosition = new Vector3(0.0f, 90.0f);
@@ -196,22 +169,31 @@ namespace CSLShowCommuterDestination.Content
             return label;
         }
 
-        private UIButton CreateButton(UIComponent parent)
+        private UIPanel CreateStopNavigation(UIComponent container)
         {
-            UIButton uiButton = parent.AddUIComponent<UIButton>();
-            uiButton.font = GameObject.Find("(Library) PublicTransportInfoViewPanel").GetComponent<PublicTransportInfoViewPanel>().Find<UILabel>("Label").font;
-            uiButton.textPadding = new RectOffset(0, 0, 4, 0);
-            uiButton.normalBgSprite = "ButtonMenu";
-            uiButton.disabledBgSprite = "ButtonMenuDisabled";
-            uiButton.hoveredBgSprite = "ButtonMenuHovered";
-            uiButton.focusedBgSprite = "ButtonMenu";
-            uiButton.pressedBgSprite = "ButtonMenuPressed";
-            uiButton.textColor = new Color32(255, 255, 255, 255);
-            uiButton.disabledTextColor = new Color32(7, 7, 7, 255); ;
-            uiButton.hoveredTextColor = new Color32(255, 255, 255, 255);
-            uiButton.focusedTextColor = new Color32(255, 255, 255, 255);
-            uiButton.pressedTextColor = new Color32(30, 30, 44, 255);
-            return uiButton;
+            UIPanel stopNavigation = container.AddUIComponent<UIPanel>();
+            stopNavigation.name = "StopNavigation";
+            stopNavigation.width = container.width;
+            stopNavigation.height = 30.0f;
+            stopNavigation.autoLayout = true;
+            stopNavigation.autoLayoutDirection = LayoutDirection.Horizontal;
+            stopNavigation.autoLayoutPadding = new RectOffset(0, 0, 0, 0);
+            stopNavigation.autoLayoutStart = LayoutStart.TopLeft;
+            stopNavigation.padding = new RectOffset(0, 0, 0, 0);
+
+            UIButton previousStop = stopNavigation.AddUIComponent<StopPanelNavigationButton>();
+            previousStop.name = "PreviousStop";
+            previousStop.text = "Previous";
+            previousStop.tooltip = "Navigate to the previous stop";
+            previousStop.eventClick += new MouseEventHandler(OnPrevStopButtonClick);
+
+            UIButton nextStop = stopNavigation.AddUIComponent<StopPanelNavigationButton>();
+            nextStop.name = "NextStop";
+            nextStop.text = "Next";
+            nextStop.tooltip = "Navigate to the next stop";
+            nextStop.eventClick += new MouseEventHandler(OnNextStopButtonClick);
+
+            return stopNavigation;
         }
 
         private UIPanel CreateTitleBar(UIComponent container, string name, string text)
