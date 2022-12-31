@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using UnityEngine;
+using CSLShowCommuterDestination.Content;
 
 namespace CSLShowCommuterDestination {
     public static class Patcher {
