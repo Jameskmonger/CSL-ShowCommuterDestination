@@ -1,6 +1,7 @@
 ﻿using CitiesHarmony.API;
 using ColossalFramework.UI;
 using CSLShowCommuterDestination.Game.Integrations;
+using CSLShowCommuterDestination.UI;
 using ICities;
 using UnityEngine;
 
@@ -43,15 +44,10 @@ namespace CSLShowCommuterDestination
             ModIntegrations.CheckEnabledMods();
 
             var group = helper.AddGroup(Name) as UIHelper;
-            var panel = group.self as UIPanel;
+
             group.AddSpace(10);
 
-            group = helper.AddGroup("Integrations") as UIHelper;
-            panel = group.self as UIPanel;
-
-            var ipt2Label = panel.AddUIComponent<UILabel>();
-            ipt2Label.name = "integration_ipt2";
-            ipt2Label.text = "Improved Public Transport 2: " + (ModIntegrations.IsIPT2Enabled() ? "Detected" : "Not detected");
+            SettingsUI.BuildPanel(group);
         }
     }
 }

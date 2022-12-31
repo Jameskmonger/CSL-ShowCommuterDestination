@@ -1,4 +1,5 @@
 ﻿using CSLShowCommuterDestination.Game.Integrations;
+using CSLShowCommuterDestination.UI;
 using HarmonyLib;
 using System;
 using System.Reflection;
@@ -46,6 +47,7 @@ namespace CSLShowCommuterDestination.Patches
             InstanceID oldID, InstanceID newID
         )
         {
+            // TODO this shouldn't be referring to the UI panel directly - bad separation of concerns
             StopDestinationInfoPanel.instance.Show(newID.NetNode);
         }
     }
