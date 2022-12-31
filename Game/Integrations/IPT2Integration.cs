@@ -46,6 +46,15 @@ namespace CSLShowCommuterDestination.Game.Integrations
                 return;
             }
 
+            InvokeIPT2ShowMethod(instanceId);
+        }
+
+        /// <summary>
+        /// Invoke the IPT2 show method via reflection
+        /// </summary>
+        /// <param name="instanceID">the instance ID of the stop</param>
+        private static void InvokeIPT2ShowMethod(InstanceID instanceId)
+        {
             Type iptType = Type.GetType(ASSEMBLY_NAME + ".PublicTransportStopWorldInfoPanel, " + ASSEMBLY_NAME);
 
             if (iptType == null)
@@ -83,8 +92,8 @@ namespace CSLShowCommuterDestination.Game.Integrations
                 Debug.LogWarning("'Show' method not found in PublicTransportStopWorldInfoPanel");
                 return;
             }
-            
-            var arguments = new object[] { Bridge.GetStopPosition(stopId), instanceId };
+
+            var arguments = new object[] { Bridge.GetStopPosition(instanceId.NetNode), instanceId };
             showMethod.Invoke(iptStopPanelInstance, arguments);
         }
     }
