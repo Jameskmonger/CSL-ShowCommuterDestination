@@ -41,8 +41,6 @@ namespace CSLShowCommuterDestination
 
         public void OnSettingsUI(UIHelperBase helper)
         {
-            ModIntegrations.CheckEnabledMods();
-
             var group = helper.AddGroup(Name) as UIHelper;
 
             group.AddSpace(10);
