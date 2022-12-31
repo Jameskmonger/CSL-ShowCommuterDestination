@@ -96,8 +96,7 @@ namespace CSLShowCommuterDestination.UI
             transportLineId = Bridge.GetStopTransportLineId(this.stopId);
 
             DestinationGraph = DestinationGraphGenerator.GenerateGraph(this.stopId);
-
-            WorldInfoPanel.HideAllWorldInfoPanels();
+            
             m_LineNameLabel.text = Bridge.GetStopLineName(this.stopId) + " destinations";
             m_StopNameLabel.text = "Stop #" + Bridge.GetStopIndex(this.stopId);
             m_PassengerCountLabel.text = "Waiting passengers: " + Bridge.GetStopPassengerCount(this.stopId);
