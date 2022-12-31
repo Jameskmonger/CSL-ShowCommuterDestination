@@ -7,8 +7,15 @@ using UnityEngine;
 
 namespace CSLShowCommuterDestination.Content
 {
+    /// <summary>
+    /// The main Commuter Destination info panel, shown when the user opens a
+    /// stop.
+    /// </summary>
     public class StopDestinationInfoPanel : UIPanel
     {
+        /// <summary>
+        /// Configuration settings for the panel
+        /// </summary>
         static class PanelConfig
         {
             public static float PanelWidth = 300.0f;
@@ -50,15 +57,22 @@ namespace CSLShowCommuterDestination.Content
             padding = new RectOffset(10, 10, 5, 5);
         }
 
+        /// <summary>
+        /// Start method from Unity MonoBehaviour.
+        /// </summary>
         public override void Start()
         {
             StopDestinationInfoPanel.instance = this;
             base.Start();
             this.SetupPanel();
 
+            // TODO this should not be here - bad separation of concerns
             ModIntegrations.CheckEnabledMods();
         }
 
+        /// <summary>
+        /// Update method from Unity MonoBehaviour.
+        /// </summary>
         public override void Update()
         {
             base.Update();
@@ -66,8 +80,13 @@ namespace CSLShowCommuterDestination.Content
             this.CheckForClose();
         }
 
+        /// <summary>
+        /// Show the panel for the given stop.
+        /// </summary>
+        /// <param name="stopId">the stop ID to show</param>
         public void Show(ushort stopId)
         {
+            // TODO this should not be here - bad separation of concerns
             if (ModIntegrations.IsIPT2Enabled())
             {
                 IPT2Integration.ShowStopPanel(stopId);
@@ -88,23 +107,28 @@ namespace CSLShowCommuterDestination.Content
             // TODO improve this, its not very reliable
             relativePosition = new Vector3(400f, 400f);
 
-            this.Show();
+            base.Show();
         }
 
-        public void MoveToPrevStop()
+        private void MoveToPrevStop()
         {
             var prevStop = TransportLine.GetPrevStop(this.stopId);
 
             this.Show(prevStop);
         }
 
-        public void MoveToNextStop()
+        private void MoveToNextStop()
         {
             var nextStop = TransportLine.GetNextStop(this.stopId);
 
             this.Show(nextStop);
         }
-        
+
+        /// <summary>
+        /// Close the panel if the Escape key is pressed.
+        /// 
+        /// Called every frame from Update().
+        /// </summary>
         private void CheckForClose()
         {
             if (Input.GetKey(KeyCode.Escape))
@@ -113,6 +137,13 @@ namespace CSLShowCommuterDestination.Content
             }
         }
 
+        /// <summary>
+        /// Build the UIComponents associated with this panel.
+        /// 
+        /// This seemingly has to happen in Start() rather than the constructor,
+        /// because some of the properties use dynamic setters, so sizing will break if
+        /// we try to do it in the constructor.
+        /// </summary>
         private void SetupPanel()
         {
             this.isVisible = false;
@@ -146,21 +177,37 @@ namespace CSLShowCommuterDestination.Content
             this.m_PassengerCountLabel.relativePosition = new Vector3(0.0f, 90.0f);
         }
 
+        /// <summary>
+        /// Called when the "Close" button is clicked.
+        /// </summary>
         private void OnCloseButtonClick(UIComponent component, UIMouseEventParameter eventParam)
         {
             this.Hide();
         }
 
+        /// <summary>
+        /// Called when the "Previous Stop" button is clicked.
+        /// </summary>
         private void OnPrevStopButtonClick(UIComponent component, UIMouseEventParameter eventParam)
         {
             this.MoveToPrevStop();
         }
 
+        /// <summary>
+        /// Called when the "Next Stop" button is clicked.
+        /// </summary>
         private void OnNextStopButtonClick(UIComponent component, UIMouseEventParameter eventParam)
         {
             this.MoveToNextStop();
         }
 
+        /// <summary>
+        /// Create a label with a preset text size.
+        /// </summary>
+        /// <param name="container">the container to render the label within</param>
+        /// <param name="name">the name of the label</param>
+        /// <param name="text">the text to display</param>
+        /// <returns>the label UIComponent</returns>
         private UILabel CreateLabel(UIComponent container, string name, string text)
         {
             var label = container.AddUIComponent<UILabel>();
@@ -172,6 +219,11 @@ namespace CSLShowCommuterDestination.Content
             return label;
         }
 
+        /// <summary>
+        /// Creates the "stop navigation" components. This contains the "Previous Stop" and "Next Stop" buttons.
+        /// </summary>
+        /// <param name="container">the container to render the navigation within</param>
+        /// <returns>the navigation UIComponent</returns>
         private UIPanel CreateStopNavigation(UIComponent container)
         {
             UIPanel stopNavigation = container.AddUIComponent<UIPanel>();
@@ -199,15 +251,30 @@ namespace CSLShowCommuterDestination.Content
             return stopNavigation;
         }
 
+        /// <summary>
+        /// Creates the components for the title bar.
+        /// 
+        /// <list type="bullet">
+        ///     <item>the containing panel</item>
+        ///     <item>the label</item>
+        ///     <item>a drag handle for the `container` param</item>
+        ///     <item>a close button</item>
+        /// </list>
+        /// </summary>
+        /// <param name="container">the container to render the title bar within</param>
+        /// <param name="name">the name of the title bar</param>
+        /// <param name="text">the title to display</param>
+        /// <returns>the title bar UIComponent</returns>
         private UIPanel CreateTitleBar(UIComponent container, string name, string text)
         {
             UIPanel titleBar = container.AddUIComponent<UIPanel>();
+            titleBar.name = name;
             titleBar.width = PanelConfig.TitleWidth;
             titleBar.height = PanelConfig.TitleHeight;
             titleBar.relativePosition = Vector3.zero;
 
             UILabel title = titleBar.AddUIComponent<UILabel>();
-            title.name = name;
+            title.name = name + "Title";
             title.text = text;
             title.isInteractive = false;
             title.width = titleBar.width;
@@ -227,6 +294,8 @@ namespace CSLShowCommuterDestination.Content
             closeButton.hoveredBgSprite = "buttonclosehover";
             closeButton.pressedBgSprite = "buttonclosepressed";
             closeButton.relativePosition = new Vector3(PanelConfig.CloseButtonX, PanelConfig.CloseButtonY);
+
+            // this calls the OnCloseButtonClick method on this StopDestinationInfoPanel instance
             closeButton.eventClick += new MouseEventHandler(OnCloseButtonClick);
 
             return titleBar;
