@@ -54,6 +54,12 @@ namespace CSLShowCommuterDestination
                 return;
             }
 
+            if (mode != LoadMode.NewGame && mode != LoadMode.NewGameFromScenario && mode != LoadMode.LoadGame)
+            {
+                // TODO clean up state here
+                return;
+            }
+
             UIView uiView = UnityEngine.Object.FindObjectOfType<UIView>();
             if ((UnityEngine.Object)uiView != (UnityEngine.Object)null)
             {
