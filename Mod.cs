@@ -8,7 +8,7 @@ namespace CSLShowCommuterDestination
 {
     public class Mod : LoadingExtensionBase, IUserMod
     {
-        private GameObject stopDestinationInfoPanel;
+        private StopDestinationInfoPanel stopDestinationInfoPanel;
 
         public const string Version = "0.4.1";
 
@@ -60,12 +60,12 @@ namespace CSLShowCommuterDestination
                 return;
             }
 
-            UIView uiView = UnityEngine.Object.FindObjectOfType<UIView>();
-            if ((UnityEngine.Object)uiView != (UnityEngine.Object)null)
+            var uiView = UIView.GetAView();
+
+            if (uiView != null)
             {
-                this.stopDestinationInfoPanel = new GameObject("StopDestinationInfoPanel");
-                this.stopDestinationInfoPanel.transform.parent = uiView.transform;
-                this.stopDestinationInfoPanel.AddComponent<StopDestinationInfoPanel>();
+                stopDestinationInfoPanel = new GameObject("StopDestinationInfoPanel").AddComponent<StopDestinationInfoPanel>();
+                stopDestinationInfoPanel.transform.parent = uiView.transform;
             }
         }
 
