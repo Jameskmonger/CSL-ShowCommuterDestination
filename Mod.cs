@@ -79,7 +79,8 @@ namespace CSLShowCommuterDestination
         }
 
         /// <summary>
-        /// Clean up all instantiated GameObjects
+        /// Clean up all instantiated GameObjects. This is important so we avoid breakages if people load into
+        /// a save after the mod has already been started.
         /// </summary>
         private void CleanUp()
         {
