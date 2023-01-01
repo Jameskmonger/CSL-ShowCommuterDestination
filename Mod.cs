@@ -33,19 +33,19 @@ namespace CSLShowCommuterDestination
         /// <summary>
         /// Unpatch Harmony patches
         /// </summary>
-        /// <remarks>TODO also clean up GameObjects</remarks>
         public void OnDisabled() {
             if (HarmonyHelper.IsHarmonyInstalled)
             {
                 Patcher.Unpatch();
             }
+
+            CleanUp();
         }
 
         /// <summary>
         /// Called when the load state changes. Responsible for setting up the main mod
         /// </summary>
         /// <param name="mode">the load type</param>
-        /// <remarks>TODO also clean up GameObjects</remarks>
         public override void OnLevelLoaded(LoadMode mode)
         {
             if (!HarmonyHelper.IsHarmonyInstalled)
@@ -54,18 +54,39 @@ namespace CSLShowCommuterDestination
                 return;
             }
 
+            CleanUp();
+
             if (mode != LoadMode.NewGame && mode != LoadMode.NewGameFromScenario && mode != LoadMode.LoadGame)
             {
-                // TODO clean up state here
                 return;
             }
 
+            SetUp();
+        }
+
+        /// <summary>
+        /// Set up the GameObjects associated with the mod.
+        /// </summary>
+        private void SetUp()
+        {
             var uiView = UIView.GetAView();
 
             if (uiView != null)
             {
                 stopDestinationInfoPanel = new GameObject("StopDestinationInfoPanel").AddComponent<StopDestinationInfoPanel>();
                 stopDestinationInfoPanel.transform.parent = uiView.transform;
+            }
+        }
+
+        /// <summary>
+        /// Clean up all instantiated GameObjects
+        /// </summary>
+        private void CleanUp()
+        {
+            if (stopDestinationInfoPanel != null)
+            {
+                GameObject.DestroyImmediate(stopDestinationInfoPanel.gameObject);
+                stopDestinationInfoPanel = null;
             }
         }
 
