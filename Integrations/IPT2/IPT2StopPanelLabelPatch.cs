@@ -14,6 +14,7 @@ namespace CSLShowCommuterDestination.Integrations.IPT2
     /// 
     /// We do this because we hide the Commuter Destination panel if IPT2 is installed, to reduce clutter.
     /// </summary>
+    [HarmonyPatch]
     public static class IPT2StopPanelLabelPatch
     {
         /// <summary>
