@@ -20,8 +20,7 @@ namespace CSLShowCommuterDestination.Integrations.IPT2
         /// The height of the label
         /// </summary>
         private const float LabelHeight = 22f;
-
-
+        
         /// <summary>
         /// The full type name of the IPT2 panel class.
         /// </summary>
