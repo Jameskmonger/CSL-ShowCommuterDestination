@@ -54,7 +54,7 @@ namespace CSLShowCommuterDestination.Integrations.IPT2
             var codes = new List<CodeInstruction>(instructions);
 
             // Find the index of the passenger count label assignment - we want to insert our label after this
-            var passengerLabelAssignmentIndex = codes.FindIndex(code => code.opcode == OpCodes.Ldstr && ((FieldInfo)code.operand).Name == "m_PassengerCount");
+            var passengerLabelAssignmentIndex = codes.FindIndex(code => code.opcode == OpCodes.Stfld && ((FieldInfo)code.operand).Name == "m_PassengerCount");
             
             var newInstructions = new List<CodeInstruction>
             {
@@ -86,7 +86,9 @@ namespace CSLShowCommuterDestination.Integrations.IPT2
             var label = CreateCommuterDestinationLabel(container);
 
             // adjust the height of the panel to support our new label
-            container.parent.height += label.height;            
+            container.parent.height += label.height;
+
+            Debug.Log("Commuter Destination: Added label to IPT2 panel");
         }
 
         /// <summary>
