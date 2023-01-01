@@ -4,8 +4,6 @@ using CSLShowCommuterDestination.UI;
 using ICities;
 using UnityEngine;
 
-// ReSharper disable InconsistentNaming
-
 namespace CSLShowCommuterDestination
 {
     public class Mod : LoadingExtensionBase, IUserMod
@@ -18,17 +16,44 @@ namespace CSLShowCommuterDestination
         
         public string Description => "See the destination of all passengers waiting at a public transport stop.";
 
+        /// <summary>
+        /// Set up Harmony patches
+        /// </summary>
         public void OnEnabled() {
-            UnityEngine.Debug.Log("CSL Commuter Destination enabled");
+            if (!HarmonyHelper.IsHarmonyInstalled)
+            {
+                Debug.LogError("CSL Commuter Destination requires Harmony, no Harmony installation found.");
+                return;
+            }
+
+            Debug.Log("CSL Commuter Destination enabled");
             HarmonyHelper.DoOnHarmonyReady(Patcher.Patch);
         }
 
+        /// <summary>
+        /// Unpatch Harmony patches
+        /// </summary>
+        /// <remarks>TODO also clean up GameObjects</remarks>
         public void OnDisabled() {
-            if (HarmonyHelper.IsHarmonyInstalled) Patcher.Unpatch();
+            if (HarmonyHelper.IsHarmonyInstalled)
+            {
+                Patcher.Unpatch();
+            }
         }
 
+        /// <summary>
+        /// Called when the load state changes. Responsible for setting up the main mod
+        /// </summary>
+        /// <param name="mode">the load type</param>
+        /// <remarks>TODO also clean up GameObjects</remarks>
         public override void OnLevelLoaded(LoadMode mode)
         {
+            if (!HarmonyHelper.IsHarmonyInstalled)
+            {
+                Debug.LogError("CSL Commuter Destination requires Harmony, no Harmony installation found.");
+                return;
+            }
+
             UIView uiView = UnityEngine.Object.FindObjectOfType<UIView>();
             if ((UnityEngine.Object)uiView != (UnityEngine.Object)null)
             {
@@ -38,12 +63,28 @@ namespace CSLShowCommuterDestination
             }
         }
 
+        /// <summary>
+        /// Called to set up the mod settings panel
+        /// </summary>
+        /// <param name="helper">A UI helper</param>
         public void OnSettingsUI(UIHelperBase helper)
         {
             var group = helper.AddGroup(Name) as UIHelper;
-
+                
             group.AddSpace(10);
 
+            if (!HarmonyHelper.IsHarmonyInstalled)
+            {
+                Debug.LogError("CSL Commuter Destination requires Harmony, no Harmony installation found.");
+
+                var panel = group.self as UIPanel;
+                
+                var label = panel.AddUIComponent<UILabel>();
+                label.name = "CommuterDestinationNotRunningHarmony";
+                label.text = "CSL Commuter Destination requires Harmony, no Harmony installation found. The mod is not running.";
+                return;
+            }
+            
             SettingsUI.BuildPanel(group);
         }
     }
