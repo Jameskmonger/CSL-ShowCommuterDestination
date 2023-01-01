@@ -13,13 +13,14 @@ namespace CSLShowCommuterDestination
         public const string Version = "0.4.1";
 
         public string Name => "CSL Commuter Destination " + Version;
-        
+
         public string Description => "See the destination of all passengers waiting at a public transport stop.";
 
         /// <summary>
         /// Set up Harmony patches
         /// </summary>
-        public void OnEnabled() {
+        public void OnEnabled()
+        {
             if (!HarmonyHelper.IsHarmonyInstalled)
             {
                 Debug.LogError("CSL Commuter Destination requires Harmony, no Harmony installation found.");
@@ -33,7 +34,8 @@ namespace CSLShowCommuterDestination
         /// <summary>
         /// Unpatch Harmony patches
         /// </summary>
-        public void OnDisabled() {
+        public void OnDisabled()
+        {
             if (HarmonyHelper.IsHarmonyInstalled)
             {
                 Patcher.Unpatch();
@@ -98,7 +100,7 @@ namespace CSLShowCommuterDestination
         public void OnSettingsUI(UIHelperBase helper)
         {
             var group = helper.AddGroup(Name) as UIHelper;
-                
+
             group.AddSpace(10);
 
             if (!HarmonyHelper.IsHarmonyInstalled)
@@ -106,13 +108,13 @@ namespace CSLShowCommuterDestination
                 Debug.LogError("CSL Commuter Destination requires Harmony, no Harmony installation found.");
 
                 var panel = group.self as UIPanel;
-                
+
                 var label = panel.AddUIComponent<UILabel>();
                 label.name = "CommuterDestinationNotRunningHarmony";
                 label.text = "CSL Commuter Destination requires Harmony, no Harmony installation found. The mod is not running.";
                 return;
             }
-            
+
             SettingsUI.BuildPanel(group);
         }
     }
