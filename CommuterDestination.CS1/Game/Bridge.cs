@@ -280,9 +280,9 @@ namespace CommuterDestination.CS1.Game
         {
             List<CitizenDestination> citizenDestinations = new List<CitizenDestination>();
 
-            var transitRange = GameBridge.Instance.GetStopRange(stopId);
+            var transitRange = GetStopRange(stopId);
 
-            Vector3 stopPosition = GameBridge.Instance.GetStopPosition(stopId);
+            Vector3 stopPosition = GetStopPosition(stopId);
 
             int LOWER_BOUND_X = Mathf.Max((int)((stopPosition.x - transitRange) / 8.0 + 1080.0), 0);
             int UPPER_BOUND_X = Mathf.Min((int)((stopPosition.x + transitRange) / 8.0 + 1080.0), 2159);
@@ -303,7 +303,7 @@ namespace CommuterDestination.CS1.Game
                         {
                             citizenDestinations.Add(new CitizenDestination
                             {
-                                stopId = GameBridge.Instance.GetDestinationStopId(stopId, citizenInstanceId),
+                                stopId = GetDestinationStopId(stopId, citizenInstanceId),
                                 buildingId = citizen.m_targetBuilding
                             });
                         }
@@ -324,9 +324,9 @@ namespace CommuterDestination.CS1.Game
         /// <param name="stopId">the stop to check</param>
         /// <param name="stopRange">the range of the stop</param>
         /// <returns>`true` if the citizen is waiting at the stop, false otherwise</returns>
-        private static bool IsCitizenAtStop(ref CitizenInstance citizen, ushort citizenInstanceId, ushort stopId, float stopRange)
+        private bool IsCitizenAtStop(ref CitizenInstance citizen, ushort citizenInstanceId, ushort stopId, float stopRange)
         {
-            var citizenIsAtStop = GameBridge.Instance.IsCitizenInRangeOfStop(citizenInstanceId, stopId, (double)stopRange);
+            var citizenIsAtStop = IsCitizenInRangeOfStop(citizenInstanceId, stopId, (double)stopRange);
 
             // If the citizen is not within range, no need to check further
             if (!citizenIsAtStop)
@@ -334,9 +334,9 @@ namespace CommuterDestination.CS1.Game
                 return false;
             }
 
-            ushort nextStop = GameBridge.Instance.GetNextStop(stopId);
-            Vector3 stopPosition = GameBridge.Instance.GetStopPosition(stopId);
-            Vector3 nextStopPosition = GameBridge.Instance.GetStopPosition(nextStop);
+            ushort nextStop = GetNextStop(stopId);
+            Vector3 stopPosition = GetStopPosition(stopId);
+            Vector3 nextStopPosition = GetStopPosition(nextStop);
 
             return (
                 (citizen.m_flags & CitizenInstance.Flags.WaitingTransport) != CitizenInstance.Flags.None
