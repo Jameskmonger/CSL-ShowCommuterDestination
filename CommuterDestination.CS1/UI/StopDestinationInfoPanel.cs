@@ -84,12 +84,6 @@ namespace CommuterDestination.CS1.UI
         /// <param name="stopId">the stop ID to show</param>
         public void Show(ushort stopId)
         {
-            // TODO this should not be here - bad separation of concerns
-            if (IPT2Integration.IsEnabled)
-            {
-                IPT2Integration.ShowStopPanel(stopId);
-            }
-
             this.stopId = stopId;
             transportLineId = GameBridge.Instance.GetStopTransportLineId(this.stopId);
 

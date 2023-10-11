@@ -24,7 +24,7 @@ namespace CommuterDestination.CS1.Patches
         /// <param name="component">The UIComponent which was clicked</param>
         /// <param name="eventParam">Mouse event params (unused)</param>
         /// <remarks>Set as priority 0 so it runs before IPT2 (if present).</remarks>
-        [HarmonyPrefix, HarmonyPriority(0)]
+        [HarmonyPrefix, HarmonyBefore(IPT2Integration.HARMONY_ID)]
         public static bool Prefix(
             PublicTransportStopButton __instance,
             UIComponent component,

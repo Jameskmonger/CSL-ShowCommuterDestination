@@ -18,6 +18,11 @@ namespace CommuterDestination.CS1.Integrations.IPT2
         public const string ASSEMBLY_NAME = "ImprovedPublicTransport2";
 
         /// <summary>
+        /// The IPT2 Harmony ID
+        /// </summary>
+        public const string HARMONY_ID = "github.com/bloodypenguin/ImprovedPublicTransport";
+
+        /// <summary>
         /// Is the IPT2 integration enabled? i.e. is the IPT2 mod installed?
         /// </summary>
         public static bool IsEnabled
