@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using CommuterDestination.Core.Citizen;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace CommuterDestination.Core.Bridge
 {
@@ -107,5 +109,12 @@ namespace CommuterDestination.Core.Bridge
         /// </summary>
         /// <param name="stopId">the stop ID to look up</param>
         void SetCameraOnStop(ushort stopId);
+
+        /// <summary>
+        /// Gets the destinations for citizens waiting at a given stop.
+        /// </summary>
+        /// <param name="stopId">the stop ID</param>
+        /// <returns>the list of destinations, one per citizen waiting</returns>
+        IEnumerable<CitizenDestination> GetCitizenDestinations(ushort stopId);
     }
 }
