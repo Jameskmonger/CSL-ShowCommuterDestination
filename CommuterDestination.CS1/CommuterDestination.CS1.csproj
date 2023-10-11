@@ -37,7 +37,7 @@
 	</PropertyGroup>
 	<Target Name="DeployToModDirectory" AfterTargets="Build">
 		<PropertyGroup>
-			<ModDirectory>$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\</ModDirectory>
+			<ModDirectory>$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\</ModDirectory>
 		</PropertyGroup>
 		<ItemGroup>
 			<ModFiles Include="$(TargetDir)*.*" />
