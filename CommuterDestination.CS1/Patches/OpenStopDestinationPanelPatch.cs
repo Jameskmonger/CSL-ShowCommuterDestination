@@ -2,51 +2,30 @@
 using System.Collections.Generic;
 using System.Reflection;
 using ColossalFramework.UI;
+using CommuterDestination.CS1.Integrations;
 using CommuterDestination.CS1.Integrations.IPT2;
 using CommuterDestination.CS1.UI;
 using HarmonyLib;
+using UnityEngine;
 
 namespace CommuterDestination.CS1.Patches
 {
     /// <summary>
     /// This patch listens to mouse clicks on the PublicTransportStopButton and opens the Commuter Destination info panel
     /// for the stop that was clicked.
-    /// 
-    /// There is a compatibility patch in here to account for IPT2, which also applies a patch to the same method.
     /// </summary>
-    [HarmonyPatch]
+    [HarmonyPatch(typeof(PublicTransportStopButton), "OnMouseDown")]
     public static class OpenStopDestinationPanelPatch
     {
-        /// <summary>
-        /// Lists the methods that we want to patch. This allows us to patch multiple methods with the same patch.
-        /// 
-        /// <list type="bullet">
-        ///     <item>the original method in the base game</item>
-        ///     <item>the IPT2 method, if IPT2 is present</item>
-        /// </list>
-        /// </summary>
-        /// <remarks>We need to patch the IPT2 method because it's using the "Redirection Framework" rather than Harmony.</remarks>
-        /// <returns>The list of methods</returns>
-        public static IEnumerable<MethodBase>TargetMethods()
-        {
-            // The original method in the base game
-            yield return typeof(PublicTransportStopButton).GetMethod("OnMouseDown", BindingFlags.Instance | BindingFlags.NonPublic);
-
-            // If IPT2 is present, we need to patch the IPT2 method as well
-            Type iptType = Type.GetType(IPT2Integration.ASSEMBLY_NAME + ".Detour.PublicTransportStopButtonDetour, " + IPT2Integration.ASSEMBLY_NAME);
-            if (iptType != null)
-            {
-                yield return iptType.GetMethod("OnMouseDown", BindingFlags.Instance | BindingFlags.NonPublic);
-            }
-        }
-
         /// <summary>
         /// Open the Commuter Destination info panel when the user clicks on a stop.
         /// </summary>
         /// <param name="__instance">The PublicTransportStopButton which was clicked (the instance being patched)</param>
         /// <param name="component">The UIComponent which was clicked</param>
         /// <param name="eventParam">Mouse event params (unused)</param>
-        public static void Postfix(
+        /// <remarks>Set as priority 0 so it runs before IPT2 (if present).</remarks>
+        [HarmonyPrefix, HarmonyPriority(0)]
+        public static bool Prefix(
             PublicTransportStopButton __instance,
             UIComponent component,
             UIMouseEventParameter eventParam
@@ -56,6 +35,8 @@ namespace CommuterDestination.CS1.Patches
 
             // TODO this probably shouldn't be referring to the UI panel directly - bad separation of concerns
             StopDestinationInfoPanel.instance.Show(stopId);
+
+            return true;
         }
     }
 }

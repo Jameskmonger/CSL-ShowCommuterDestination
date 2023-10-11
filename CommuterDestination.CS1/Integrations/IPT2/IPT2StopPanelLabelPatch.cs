@@ -25,7 +25,7 @@ namespace CommuterDestination.CS1.Integrations.IPT2
         /// <summary>
         /// The full type name of the IPT2 panel class.
         /// </summary>
-        private const string IPT2PanelTypeName = IPT2Integration.ASSEMBLY_NAME + ".PublicTransportStopWorldInfoPanel, " + IPT2Integration.ASSEMBLY_NAME;
+        private const string IPT2PanelTypeName = IPT2Integration.ASSEMBLY_NAME + ".UI.PublicTransportStopWorldInfoPanel, " + IPT2Integration.ASSEMBLY_NAME;
         
         /// <summary>
         /// This will return `false` if the IPT2 class can't be found, which allows us to
@@ -35,7 +35,7 @@ namespace CommuterDestination.CS1.Integrations.IPT2
         /// </summary>
         /// <returns>true if IPT2 class is found, false otherwise</returns>
         /// <remarks>TODO we should maybe be taking `MethodBase original` in as a parameter here</remarks>
-        public static bool Prepare() => Type.GetType(IPT2PanelTypeName) != null;
+        public static bool Prepare() => IPT2Integration.IsEnabled;
 
         /// <summary>
         /// The target method of the patch - `PublicTransportStopWorldInfoPanel.SetupPanel`
