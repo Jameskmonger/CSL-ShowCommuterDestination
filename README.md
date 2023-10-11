@@ -18,7 +18,7 @@ Download on the Steam Workshop https://steamcommunity.com/sharedfiles/filedetail
 ### Setup
 
 - Open solution in Visual Studio (2022)
-- Add required assemblies as references (todo - add list)
+- Copy required `.dll` files into the [./vendor/](./vendor/README.md) folder
 - Build
 - Mod will be built into `LOCALAPPDATA\Colossal Order\Cities_Skylines\Addons\Mods\CSLShowCommuterDestination\` and should be available in the Content Manager in-game
 
