@@ -105,11 +105,21 @@ namespace CommuterDestination.CS1.Game
             return Vector3.SqrMagnitude((Vector3)citizen.m_targetPos - stopPosition) < (range * range);
         }
 
+        /// <summary>
+        /// Gets the ID of the previous stop on the line
+        /// </summary>
+        /// <param name="stopId">the stop ID to look from</param>
+        /// <returns>the ID of the previous stop</returns>
         public ushort GetPrevStop(ushort stopId)
         {
             return TransportLine.GetPrevStop(stopId);
         }
 
+        /// <summary>
+        /// Gets the ID of the next stop on the line
+        /// </summary>
+        /// <param name="stopId">the stop ID to look from</param>
+        /// <returns>the ID of the next stop</returns>
         public ushort GetNextStop(ushort stopId)
         {
             return TransportLine.GetNextStop(stopId);
@@ -138,8 +148,8 @@ namespace CommuterDestination.CS1.Game
         /// </summary>
         /// <remarks>most of this is ripped from TransportArriveAtTarget</remarks>
         /// <param name="originalStopId">the citizen's origin stop</param>
-        /// <param name="citizen">the citizen</param>
-        /// <returns></returns>
+        /// <param name="citizenId">the citizen's id</param>
+        /// <returns>the stop ID</returns>
         public ushort GetDestinationStopId(ushort originalStopId, ushort citizenId)
         {
             CitizenInstance citizen = Singleton<CitizenManager>.instance.m_instances.m_buffer[(int)citizenId];
