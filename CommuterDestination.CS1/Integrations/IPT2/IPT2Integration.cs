@@ -57,7 +57,7 @@ namespace CommuterDestination.CS1.Integrations.IPT2
         /// <param name="instanceID">the instance ID of the stop</param>
         private static void InvokeIPT2ShowMethod(InstanceID instanceId)
         {
-            Type iptType = Type.GetType(ASSEMBLY_NAME + ".PublicTransportStopWorldInfoPanel, " + ASSEMBLY_NAME);
+            Type iptType = Type.GetType(ASSEMBLY_NAME + ".UI.PublicTransportStopWorldInfoPanel, " + ASSEMBLY_NAME);
 
             if (iptType == null)
             {
