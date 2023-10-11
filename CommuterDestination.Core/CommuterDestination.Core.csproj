@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net35</TargetFramework>
+		<AssemblyTitle>CommuterDestination.Core</AssemblyTitle>
+		<AssemblyVersion>0.5.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="UnityEngine">
+      <HintPath>..\vendor\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
