@@ -12,7 +12,7 @@ namespace CommuterDestination.CS1
     {
         private StopDestinationInfoPanel stopDestinationInfoPanel;
 
-        public const string Version = "0.4.1";
+        public const string Version = "0.5.0";
 
         public string Name => "CSL Commuter Destination " + Version;
 
