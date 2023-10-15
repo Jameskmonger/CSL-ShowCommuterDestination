@@ -4,7 +4,7 @@ using CommuterDestination.Core.Citizen;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CommuterDestination.CS1.Game
+namespace CommuterDestination.CS1.Core
 {
     /// <summary>
     /// The <c>Bridge</c> class is responsible for interactions with the Cities: Skylines game engine
@@ -100,11 +100,11 @@ namespace CommuterDestination.CS1.Game
         /// <returns>`true` if the citizen is within the stop's radius, `false` otherwise</returns>
         public bool IsCitizenInRangeOfStop(ushort citizenId, ushort stopId, double range)
         {
-            CitizenInstance citizen = Singleton<CitizenManager>.instance.m_instances.m_buffer[(int)citizenId];
+            CitizenInstance citizen = Singleton<CitizenManager>.instance.m_instances.m_buffer[citizenId];
 
             Vector3 stopPosition = GetStopPosition(stopId);
 
-            return Vector3.SqrMagnitude((Vector3)citizen.m_targetPos - stopPosition) < (range * range);
+            return Vector3.SqrMagnitude((Vector3)citizen.m_targetPos - stopPosition) < range * range;
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace CommuterDestination.CS1.Game
         /// <returns>the stop ID</returns>
         public ushort GetDestinationStopId(ushort originalStopId, ushort citizenId)
         {
-            CitizenInstance citizen = Singleton<CitizenManager>.instance.m_instances.m_buffer[(int)citizenId];
+            CitizenInstance citizen = Singleton<CitizenManager>.instance.m_instances.m_buffer[citizenId];
             ushort currentStop = GetNextStop(originalStopId);
 
             while (true)
@@ -189,10 +189,10 @@ namespace CommuterDestination.CS1.Game
                 if ((citizenData.m_flags & CitizenInstance.Flags.TargetIsNode) == CitizenInstance.Flags.TargetIsNode)
                 {
                     ushort targetStop = citizenData.m_targetBuilding;
-                    if (targetStop != (ushort)0 && (double)Vector3.SqrMagnitude(netManager.m_nodes.m_buffer[(int)targetStop].m_position - currentPosition) < 4.0)
+                    if (targetStop != 0 && (double)Vector3.SqrMagnitude(netManager.m_nodes.m_buffer[targetStop].m_position - currentPosition) < 4.0)
                     {
                         ushort stopAfterTarget = GetNextStop(targetStop);
-                        if (stopAfterTarget != (ushort)0 && (double)Vector3.SqrMagnitude(netManager.m_nodes.m_buffer[(int)stopAfterTarget].m_position - nextPosition) < 4.0)
+                        if (stopAfterTarget != 0 && (double)Vector3.SqrMagnitude(netManager.m_nodes.m_buffer[stopAfterTarget].m_position - nextPosition) < 4.0)
                         {
                             return false;
                         }
@@ -204,23 +204,23 @@ namespace CommuterDestination.CS1.Game
 
             if (citizenData.m_path != 0U)
             {
-                citizenData.m_pathPositionIndex += (byte)2;
-                if ((int)citizenData.m_pathPositionIndex >> 1 >= (int)pathManager.m_pathUnits.m_buffer[(int)citizenData.m_path].m_positionCount)
+                citizenData.m_pathPositionIndex += 2;
+                if (citizenData.m_pathPositionIndex >> 1 >= pathManager.m_pathUnits.m_buffer[(int)citizenData.m_path].m_positionCount)
                 {
                     pathManager.ReleaseFirstUnit(ref citizenData.m_path);
-                    citizenData.m_pathPositionIndex = (byte)0;
+                    citizenData.m_pathPositionIndex = 0;
                 }
             }
 
             if (citizenData.m_path != 0U)
             {
                 PathUnit.Position position;
-                if (pathManager.m_pathUnits.m_buffer[(int)citizenData.m_path].GetPosition((int)citizenData.m_pathPositionIndex >> 1, out position))
+                if (pathManager.m_pathUnits.m_buffer[(int)citizenData.m_path].GetPosition(citizenData.m_pathPositionIndex >> 1, out position))
                 {
                     citizenData.m_lastPathOffset = position.m_offset;
 
                     uint laneId = PathManager.GetLaneID(position);
-                    if ((double)Vector3.SqrMagnitude(netManager.m_lanes.m_buffer[(int)laneId].CalculatePosition((float)citizenData.m_lastPathOffset * 0.003921569f) - nextPosition) < 4.0)
+                    if ((double)Vector3.SqrMagnitude(netManager.m_lanes.m_buffer[(int)laneId].CalculatePosition(citizenData.m_lastPathOffset * 0.003921569f) - nextPosition) < 4.0)
                     {
                         //if (!forceUnload)
                         return false;
@@ -294,9 +294,9 @@ namespace CommuterDestination.CS1.Game
                 for (int x = LOWER_BOUND_X; x <= UPPER_BOUND_X; ++x)
                 {
                     ushort citizenInstanceId = Singleton<CitizenManager>.instance.m_citizenGrid[z * 2160 + x];
-                    while (citizenInstanceId != (ushort)0)
+                    while (citizenInstanceId != 0)
                     {
-                        CitizenInstance citizen = Singleton<CitizenManager>.instance.m_instances.m_buffer[(int)citizenInstanceId];
+                        CitizenInstance citizen = Singleton<CitizenManager>.instance.m_instances.m_buffer[citizenInstanceId];
                         ushort nextGridInstance = citizen.m_nextGridInstance;
 
                         if (IsCitizenAtStop(ref citizen, citizenInstanceId, stopId, transitRange))
@@ -338,10 +338,10 @@ namespace CommuterDestination.CS1.Game
             Vector3 stopPosition = GetStopPosition(stopId);
             Vector3 nextStopPosition = GetStopPosition(nextStop);
 
-            return (
+            return 
                 (citizen.m_flags & CitizenInstance.Flags.WaitingTransport) != CitizenInstance.Flags.None
                 && citizen.Info.m_citizenAI.TransportArriveAtSource(citizenInstanceId, ref citizen, stopPosition, nextStopPosition)
-            );
+            ;
         }
     }
 }

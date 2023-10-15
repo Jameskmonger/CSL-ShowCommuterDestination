@@ -1,10 +1,9 @@
 ﻿using CommuterDestination.Core.Bridge;
-using CommuterDestination.CS1.Game;
 using System;
 using System.Reflection;
 using UnityEngine;
 
-namespace CommuterDestination.CS1.Integrations.IPT2
+namespace CommuterDestination.CS1.Integrations
 {
     /// <summary>
     /// Integration with Improved Public Transport 2<br/>

@@ -1,7 +1,8 @@
 ﻿using CitiesHarmony.API;
 using ColossalFramework.UI;
 using CommuterDestination.Core.Bridge;
-using CommuterDestination.CS1.Game;
+using CommuterDestination.CS1.Core;
+using CommuterDestination.CS1.Harmony;
 using CommuterDestination.CS1.UI;
 using ICities;
 using UnityEngine;
@@ -30,7 +31,7 @@ namespace CommuterDestination.CS1
             }
 
             Debug.Log("CSL Commuter Destination enabled");
-            HarmonyHelper.DoOnHarmonyReady(Patcher.Patch);
+            HarmonyHelper.DoOnHarmonyReady(HarmonyPatcher.Patch);
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace CommuterDestination.CS1
         {
             if (HarmonyHelper.IsHarmonyInstalled)
             {
-                Patcher.Unpatch();
+                HarmonyPatcher.Unpatch();
             }
 
             CleanUp();

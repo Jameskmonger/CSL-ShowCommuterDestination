@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using ColossalFramework.UI;
 using CommuterDestination.CS1.Integrations;
-using CommuterDestination.CS1.Integrations.IPT2;
 using CommuterDestination.CS1.UI;
 using HarmonyLib;
 using UnityEngine;
 
-namespace CommuterDestination.CS1.Patches
+namespace CommuterDestination.CS1.Harmony.Patches
 {
     /// <summary>
     /// This patch listens to mouse clicks on the PublicTransportStopButton and opens the Commuter Destination info panel

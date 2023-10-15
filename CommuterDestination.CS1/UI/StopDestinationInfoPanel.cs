@@ -1,7 +1,6 @@
 ﻿using ColossalFramework.UI;
 using CommuterDestination.Core.Bridge;
 using CommuterDestination.Core.Graph;
-using CommuterDestination.CS1.Integrations.IPT2;
 using CommuterDestination.CS1.UI.Components;
 using UnityEngine;
 

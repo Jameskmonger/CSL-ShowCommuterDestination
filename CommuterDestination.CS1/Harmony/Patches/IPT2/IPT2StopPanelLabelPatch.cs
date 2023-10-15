@@ -1,4 +1,5 @@
 ﻿using ColossalFramework.UI;
+using CommuterDestination.CS1.Integrations;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
 
-namespace CommuterDestination.CS1.Integrations.IPT2
+namespace CommuterDestination.CS1.Harmony.Patches.IPT2
 {
     /// <summary>
     /// This patch adds a small label to the IPT2 stop panel, letting the user know that Commuter Destination is running.
@@ -21,12 +22,12 @@ namespace CommuterDestination.CS1.Integrations.IPT2
         /// The height of the label
         /// </summary>
         private const float LabelHeight = 22f;
-        
+
         /// <summary>
         /// The full type name of the IPT2 panel class.
         /// </summary>
         private const string IPT2PanelTypeName = IPT2Integration.ASSEMBLY_NAME + ".UI.PublicTransportStopWorldInfoPanel, " + IPT2Integration.ASSEMBLY_NAME;
-        
+
         /// <summary>
         /// This will return `false` if the IPT2 class can't be found, which allows us to
         /// skip patching if IPT2 isn't present.
@@ -55,7 +56,7 @@ namespace CommuterDestination.CS1.Integrations.IPT2
 
             // Find the index of the passenger count label assignment - we want to insert our label after this
             var passengerLabelAssignmentIndex = codes.FindIndex(code => code.opcode == OpCodes.Stfld && ((FieldInfo)code.operand).Name == "m_PassengerCount");
-            
+
             var newInstructions = new List<CodeInstruction>
             {
                 // use dup to copy the container from the stack
@@ -70,7 +71,7 @@ namespace CommuterDestination.CS1.Integrations.IPT2
                     )
                 ),
             };
-            
+
             // add our new codes after the passenger label is assigned
             codes.InsertRange(passengerLabelAssignmentIndex + 1, newInstructions);
 
@@ -100,7 +101,7 @@ namespace CommuterDestination.CS1.Integrations.IPT2
         {
             // use the same font as the rest of the IPT2 UI
             var font = container.Find<UILabel>("PassengerCount").font;
-            
+
             var panel = container.AddUIComponent<UIPanel>();
             panel.name = "CommuterDestinationInjectedIPT2Container";
             panel.width = container.width - container.autoLayoutPadding.horizontal;
@@ -123,7 +124,7 @@ namespace CommuterDestination.CS1.Integrations.IPT2
             label.textAlignment = UIHorizontalAlignment.Center;
             label.verticalAlignment = UIVerticalAlignment.Middle;
 
-            var labelX = (panel.width / 2) - (label.width / 2);
+            var labelX = panel.width / 2 - label.width / 2;
             label.position = new Vector3(labelX, 0f);
 
             label.backgroundSprite = "InfoDisplay";

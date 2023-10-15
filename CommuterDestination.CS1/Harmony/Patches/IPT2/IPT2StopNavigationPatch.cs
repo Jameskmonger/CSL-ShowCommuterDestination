@@ -1,9 +1,10 @@
-﻿using CommuterDestination.CS1.UI;
+﻿using CommuterDestination.CS1.Integrations;
+using CommuterDestination.CS1.UI;
 using HarmonyLib;
 using System;
 using System.Reflection;
 
-namespace CommuterDestination.CS1.Integrations.IPT2
+namespace CommuterDestination.CS1.Harmony.Patches.IPT2
 {
     /// <summary>
     /// This patch listens to the "Previous Stop" and "Next Stop" buttons in the IPT2 stop info panel.

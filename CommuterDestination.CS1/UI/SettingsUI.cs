@@ -1,5 +1,5 @@
 ﻿using ColossalFramework.UI;
-using CommuterDestination.CS1.Integrations.IPT2;
+using CommuterDestination.CS1.Integrations;
 
 namespace CommuterDestination.CS1.UI
 {
