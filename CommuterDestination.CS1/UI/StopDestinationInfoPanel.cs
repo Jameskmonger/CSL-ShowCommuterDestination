@@ -26,6 +26,8 @@ namespace CommuterDestination.CS1.UI
             public static float CloseButtonSize = 32.0f;
             public static float CloseButtonY = 3.0f;
             public static float CloseButtonX = PanelWidth - CloseButtonSize - CloseButtonY;
+
+            public static int CyclesPerUpdate = 50;
         }
 
         public static StopDestinationInfoPanel instance;
@@ -75,7 +77,20 @@ namespace CommuterDestination.CS1.UI
             base.Update();
 
             CheckForClose();
+
+            if (this.isVisible)
+            {
+                this.cyclesSinceGraphGenerated++;
+
+                if (this.cyclesSinceGraphGenerated > PanelConfig.CyclesPerUpdate)
+                {
+                    DestinationGraph = DestinationGraphGenerator.GenerateGraph(this.stopId);
+                    this.cyclesSinceGraphGenerated = 0;
+                }
+            }
         }
+
+        private int cyclesSinceGraphGenerated = 0;
 
         /// <summary>
         /// Show the panel for the given stop.
@@ -87,7 +102,8 @@ namespace CommuterDestination.CS1.UI
             transportLineId = GameBridge.Instance.GetStopTransportLineId(this.stopId);
 
             DestinationGraph = DestinationGraphGenerator.GenerateGraph(this.stopId);
-            
+            this.cyclesSinceGraphGenerated = 0;
+
             m_LineNameLabel.text = GameBridge.Instance.GetStopLineName(this.stopId) + " destinations";
             m_StopNameLabel.text = "Stop #" + GameBridge.Instance.GetStopIndex(this.stopId);
             m_PassengerCountLabel.text = "Waiting passengers: " + GameBridge.Instance.GetStopPassengerCount(this.stopId);
